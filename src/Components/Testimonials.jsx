@@ -1,59 +1,164 @@
-import { LuUserRound } from "react-icons/lu";
+import { useEffect, useState } from "react";
+import { motion } from "motion/react";
+import { containerStagger, fadeInUp, viewportOnce } from "../lib/animations";
 
 const reviews = [
   {
-    text: "Rafid completely transformed our social presence. The CTR on our posts doubled within the first month. Highly recommend his unlimited service.",
-    name: "Alex Chen",
-    country: "USA",
+    quote:
+      "Outstanding work! The attention to detail in the logo design was impressive. They truly understood my brand vision and delivered beyond expectations.",
+    name: "Mark Harrison",
+    role: "CEO, TechVentures (USA)",
+    initials: "MH",
   },
   {
-    text: "Finding a good designer is hard. Finding one who understands strategy and delivers fast is rare. Rafid is that rare find. Our go-to guy for all visuals.",
+    quote:
+      "আমি উনার কাজে অনেক বেশি সন্তুষ্ট। লোগোটি খুবই প্রিমিয়াম হয়েছে এবং খুব অল্প সময়ের মধ্যে উনি ডিজাইনটি বুঝিয়ে দিয়েছেন। শুভকামনা রইল!",
+    name: "Anika Tabassum",
+    role: "E-commerce Owner (BD)",
+    initials: "AT",
+  },
+  {
+    quote:
+      "My YouTube CTR skyrocketed after I started using these thumbnails! Professional, eye-catching, and high-quality work every single time.",
     name: "Sarah Jenkins",
-    country: "UK",
+    role: "Content Creator (UK)",
+    initials: "SJ",
   },
   {
-    text: "The brand identity he crafted for our SaaS startup instantly elevated our perceived value. He perfectly nailed the modern, dark aesthetic we wanted.",
-    name: "Liam Dubois",
-    country: "Canada",
+    quote:
+      "অসাধারণ ডিজাইন সেন্স! সোশ্যাল মিডিয়া অ্যাডগুলোর জন্য যেমন ডিজাইন চেয়েছিলাম ঠিক তেমনই পেয়েছি। ভবিষ্যতে আবার কাজ করবো!",
+    name: "Tanvir Rahman",
+    role: "Marketing Manager, BD",
+    initials: "TR",
+  },
+  {
+    quote:
+      "The social media strategy and graphics were a game-changer for my real estate business. Prompt communication and high-level creativity.",
+    name: "Luca Moretti",
+    role: "Real Estate Agent (Italy)",
+    initials: "LM",
+  },
+  {
+    quote:
+      "উনার কালার চয়েস এবং ফন্ট সিলেকশন এক কথায় দারুণ। আমার ব্র্যান্ডের জন্য একটি পারফেক্ট আইডেন্টিটি তৈরি করে দিয়েছেন।",
+    name: "Nusrat Jahan",
+    role: "Founder, StyleCurve (BD)",
+    initials: "NJ",
+  },
+  {
+    quote:
+      "Fast delivery and exceptional quality. The print materials looked amazing in person. Will definitely recommend to anyone needing professional design.",
+    name: "David Wilson",
+    role: "Event Coordinator (AUS)",
+    initials: "DW",
+  },
+  {
+    quote:
+      "এত সুন্দর কাজের জন্য ধন্যবাদ। ডিজাইনগুলো একদম ইউনিক এবং আধুনিক। কাস্টমারদের কাছে আমাদের রিচ অনেক বেড়েছে!",
+    name: "Arif Hasan",
+    role: "Business Owner (BD)",
+    initials: "AH",
+  },
+  {
+    quote:
+      "A pleasure to work with. Highly creative and followed all instructions perfectly. The final delivery was professional and polished.",
+    name: "Elena Rodriguez",
+    role: "Digital Consultant (CAN)",
+    initials: "ER",
   },
 ];
 
 const Testimonials = () => {
+  const visibleCards = 3;
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [isAnimating, setIsAnimating] = useState(true);
+  const carouselItems = [...reviews, ...reviews.slice(0, visibleCards)];
+
+  useEffect(() => {
+    const intervalId = window.setInterval(() => {
+      setCurrentSlide((prev) => prev + 1);
+    }, 3500);
+
+    return () => window.clearInterval(intervalId);
+  }, []);
+
+  useEffect(() => {
+    if (isAnimating) return;
+
+    const restoreAnimation = window.requestAnimationFrame(() => {
+      window.requestAnimationFrame(() => {
+        setIsAnimating(true);
+      });
+    });
+
+    return () => window.cancelAnimationFrame(restoreAnimation);
+  }, [isAnimating]);
+
+  const handleTrackTransitionEnd = () => {
+    if (currentSlide !== reviews.length) return;
+    setIsAnimating(false);
+    setCurrentSlide(0);
+  };
+
   return (
-    <section id="reviews" className="py-24 md:py-32 max-w-7xl mx-auto px-6">
-      <div className="text-center mb-16">
+    <motion.section
+      id="reviews"
+      variants={containerStagger}
+      initial="initial"
+      whileInView="whileInView"
+      viewport={viewportOnce}
+      className="py-24 md:py-32 max-w-7xl mx-auto px-6"
+    >
+      <motion.div variants={fadeInUp} className="text-center mb-16">
         <h2 className="text-3xl md:text-4xl font-medium tracking-tight mb-4">
           Trusted by creators
         </h2>
         <p className="text-base text-[#9CA3AF]">Don&apos;t just take my word for it.</p>
-      </div>
+      </motion.div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {reviews.map((review) => (
-          <div
-            key={review.name}
-            className="glass-card rounded-[18px] p-8 flex flex-col justify-between"
-          >
-            <p className="text-sm text-[#9CA3AF] leading-relaxed mb-8">&quot;{review.text}&quot;</p>
-            <div className="flex items-center gap-4">
-              <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center">
-                <LuUserRound className="text-white/50" size={20} strokeWidth={1.5} />
-              </div>
-              <div>
-                <h4 className="text-sm font-medium">{review.name}</h4>
-                <p className="text-xs text-[#9CA3AF]">{review.country}</p>
+      <motion.div variants={fadeInUp} className="overflow-hidden">
+        <motion.div
+          onTransitionEnd={handleTrackTransitionEnd}
+          className={`flex ${isAnimating ? "transition-transform duration-700 ease-in-out" : ""}`}
+          style={{ transform: `translateX(-${currentSlide * (100 / visibleCards)}%)` }}
+        >
+          {carouselItems.map((review, idx) => (
+            <div key={`${review.name}-${idx}`} className="w-full md:w-1/3 shrink-0 px-3">
+              <div className="glass-card rounded-[18px] p-8 flex flex-col justify-between min-h-[260px] h-full">
+                <p className="text-sm text-[#9CA3AF] leading-relaxed mb-8">
+                  &quot;{review.quote}&quot;
+                </p>
+                <div className="flex items-center gap-4">
+                  <div className="w-10 h-10 rounded-full bg-white/10 border border-white/15 flex items-center justify-center text-xs font-semibold text-white/80">
+                    {review.initials}
+                  </div>
+                  <div>
+                    <h4 className="text-sm font-medium">{review.name}</h4>
+                    <p className="text-xs text-[#9CA3AF]">{review.role}</p>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </motion.div>
+      </motion.div>
 
-      <div className="flex justify-center gap-2 mt-8">
-        <div className="w-2 h-2 rounded-full bg-[#C026FF] shadow-[0_0_10px_rgba(192,38,255,0.8)]"></div>
-        <div className="w-2 h-2 rounded-full bg-white/20"></div>
-        <div className="w-2 h-2 rounded-full bg-white/20"></div>
-      </div>
-    </section>
+      <motion.div variants={fadeInUp} className="flex justify-center gap-2 mt-8">
+        {reviews.map((_, idx) => (
+          <button
+            key={idx}
+            type="button"
+            onClick={() => setCurrentSlide(idx)}
+            aria-label={`Go to review slide ${idx + 1}`}
+            className={`w-2 h-2 rounded-full transition-all ${
+              currentSlide % reviews.length === idx
+                ? "bg-[#C026FF] shadow-[0_0_10px_rgba(192,38,255,0.8)]"
+                : "bg-white/20 hover:bg-white/40"
+            }`}
+          />
+        ))}
+      </motion.div>
+    </motion.section>
   );
 };
 

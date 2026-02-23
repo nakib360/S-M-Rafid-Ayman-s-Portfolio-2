@@ -1,19 +1,28 @@
+import { motion } from "motion/react";
+import { containerStagger, fadeInUp, viewportOnce } from "../lib/animations";
+
 const TrustBar = () => {
   return (
-    <section className="py-12 border-y border-white/5 bg-[#0B0F1A]/50">
+    <motion.section
+      variants={containerStagger}
+      initial="initial"
+      whileInView="whileInView"
+      viewport={viewportOnce}
+      className="py-12 border-y border-white/5 bg-[#0B0F1A]/50"
+    >
       <div className="max-w-7xl mx-auto px-6 text-center">
-        <p className="text-xs font-medium text-[#9CA3AF] uppercase tracking-widest mb-8">
+        <motion.p variants={fadeInUp} className="text-xs font-medium text-[#9CA3AF] uppercase tracking-widest mb-8">
           Brands I've worked with
-        </p>
-        <div className="flex flex-wrap justify-center items-center gap-12 md:gap-24 opacity-50 grayscale">
-          <span className="text-xl font-bold tracking-tighter">ACME</span>
-          <span className="text-xl font-bold tracking-tighter">GLOBAL</span>
-          <span className="text-xl font-bold tracking-tighter">NEXUS</span>
-          <span className="text-xl font-bold tracking-tighter">ZENITH</span>
-          <span className="text-xl font-bold tracking-tighter">PULSE</span>
-        </div>
+        </motion.p>
+        <motion.div variants={fadeInUp} className="flex flex-wrap justify-center items-center gap-12 md:gap-24 opacity-50 grayscale">
+          {["ACME", "GLOBAL", "NEXUS", "ZENITH", "PULSE"].map((brand) => (
+            <span key={brand} className="text-xl font-bold tracking-tighter">
+              {brand}
+            </span>
+          ))}
+        </motion.div>
       </div>
-    </section>
+    </motion.section>
   );
 };
 

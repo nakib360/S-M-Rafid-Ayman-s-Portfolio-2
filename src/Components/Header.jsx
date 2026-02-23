@@ -1,8 +1,15 @@
 import { LuMenu } from "react-icons/lu";
+import { motion } from "motion/react";
+import { easing } from "../lib/animations";
 
 const Header = () => {
   return (
-    <nav className="fixed top-0 w-full z-50 glass-card border-b-0 border-white/5 transition-all duration-300">
+    <motion.nav
+      initial={{ opacity: 0, y: -20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.55, ease: easing }}
+      className="fixed top-0 w-full z-50 glass-card border-b-0 border-white/5 transition-all duration-300"
+    >
       <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
         <div className="flex items-center gap-4">
           <a href="#" className="text-xl font-bold tracking-tighter text-white">
@@ -45,7 +52,7 @@ const Header = () => {
           </button>
         </div>
       </div>
-    </nav>
+    </motion.nav>
   );
 };
 

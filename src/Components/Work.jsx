@@ -1,4 +1,6 @@
 import { LuArrowRight, LuImage } from "react-icons/lu";
+import { motion } from "motion/react";
+import { containerStagger, fadeInUp, viewportOnce } from "../lib/animations";
 
 const projects = [
   { title: "Nexus Rebrand", type: "Brand Identity" },
@@ -9,8 +11,15 @@ const projects = [
 
 const Work = () => {
   return (
-    <section id="work" className="py-24 md:py-32 max-w-7xl mx-auto px-6">
-      <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+    <motion.section
+      id="work"
+      variants={containerStagger}
+      initial="initial"
+      whileInView="whileInView"
+      viewport={viewportOnce}
+      className="py-24 md:py-32 max-w-7xl mx-auto px-6"
+    >
+      <motion.div variants={fadeInUp} className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
         <div>
           <h2 className="text-3xl md:text-4xl font-medium tracking-tight mb-4">
             Selected Works
@@ -26,11 +35,12 @@ const Work = () => {
           View all projects
           <LuArrowRight size={16} strokeWidth={1.5} />
         </a>
-      </div>
+      </motion.div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <motion.div variants={containerStagger} className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {projects.map((proj) => (
-          <div
+          <motion.div
+            variants={fadeInUp}
             key={proj.title}
             className="group relative rounded-[18px] overflow-hidden bg-white/5 border border-white/10 aspect-4/3 cursor-pointer"
           >
@@ -46,10 +56,10 @@ const Work = () => {
               <h3 className="text-lg font-medium tracking-tight mb-1">{proj.title}</h3>
               <p className="text-xs text-[#9CA3AF]">{proj.type}</p>
             </div>
-          </div>
+          </motion.div>
         ))}
-      </div>
-    </section>
+      </motion.div>
+    </motion.section>
   );
 };
 

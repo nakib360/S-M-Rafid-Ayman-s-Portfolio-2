@@ -1,4 +1,6 @@
 import { LuArrowRight, LuCircleCheck } from "react-icons/lu";
+import { motion } from "motion/react";
+import { containerStagger, fadeInUp, viewportOnce } from "../lib/animations";
 
 const Hero = () => {
   return (
@@ -11,26 +13,32 @@ const Hero = () => {
         }}
       ></div>
 
-      <div className="relative z-10 w-full max-w-4xl mx-auto flex flex-col items-center animate-fade-in">
-        <div className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/10 bg-white/5 backdrop-blur-md mb-8">
+      <motion.div
+        variants={containerStagger}
+        initial="initial"
+        whileInView="whileInView"
+        viewport={viewportOnce}
+        className="relative z-10 w-full max-w-4xl mx-auto flex flex-col items-center"
+      >
+        <motion.div variants={fadeInUp} className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/10 bg-white/5 backdrop-blur-md mb-8">
           <div className="w-2 h-2 rounded-full bg-[#10B981] shadow-[0_0_10px_rgba(16,185,129,0.5)]"></div>
           <span className="text-xs font-medium text-[#9CA3AF]">
             Graphic Designer from Bangladesh
           </span>
-        </div>
+        </motion.div>
 
-        <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-6 leading-[1.1]">
+        <motion.h1 variants={fadeInUp} className="text-5xl md:text-7xl font-bold tracking-tight mb-6 leading-[1.1]">
           <span className="text-gradient">Unlimited</span>
           <br />
           Digital Design
-        </h1>
+        </motion.h1>
 
-        <p className="text-lg text-[#9CA3AF] max-w-2xl mb-10 leading-relaxed">
+        <motion.p variants={fadeInUp} className="text-lg text-[#9CA3AF] max-w-2xl mb-10 leading-relaxed">
           Design expertise you need to scale your brand. High-converting social
           media, memorable logos, thumbnails &amp; striking brand visuals.
-        </p>
+        </motion.p>
 
-        <div className="flex flex-col sm:flex-row items-center gap-6 mb-12 text-sm text-[#9CA3AF] font-medium">
+        <motion.div variants={fadeInUp} className="flex flex-col sm:flex-row items-center gap-6 mb-12 text-sm text-[#9CA3AF] font-medium">
           <div className="flex items-center gap-2">
             <LuCircleCheck className="text-[#C026FF]" size={20} strokeWidth={1.5} />
             Flat pricing
@@ -43,9 +51,10 @@ const Hero = () => {
             <LuCircleCheck className="text-[#C026FF]" size={20} strokeWidth={1.5} />
             Cancel anytime
           </div>
-        </div>
+        </motion.div>
 
-        <a
+        <motion.a
+          variants={fadeInUp}
           href="#contact"
           className="group relative flex items-center justify-center h-14 px-8 rounded-full bg-white text-black text-base font-bold transition-all hover:scale-[1.02] active:scale-95 glow-shadow"
         >
@@ -55,8 +64,8 @@ const Hero = () => {
             size={20}
             strokeWidth={1.5}
           />
-        </a>
-      </div>
+        </motion.a>
+      </motion.div>
     </section>
   );
 };
