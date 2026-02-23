@@ -1,0 +1,35 @@
+const WhyRafid = () => {
+  const points = [
+    "Strategy first approach",
+    "Clean modern visuals",
+    "Fast, reliable delivery",
+    "Brand focused consistency",
+    "Affordable, scalable pricing",
+  ];
+
+  return (
+    <section className="py-24 border-y border-white/5 bg-[#0B0F1A]">
+      <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-16 items-center">
+        <div>
+          <h2 className="text-3xl md:text-5xl font-medium tracking-tight mb-6 leading-tight">
+            Design, without <br /> <span className="text-[#9CA3AF]">the hassle.</span>
+          </h2>
+          <p className="text-base text-[#9CA3AF] leading-relaxed mb-8">
+            Replace unreliable freelancers and expensive agencies with a single point of contact. Predictable outcomes, stunning visuals, zero headaches.
+          </p>
+        </div>
+        <div className="glass-card p-8 rounded-[18px]">
+          <ul className="space-y-4">
+            {points.map((pt, i) => (
+              <li key={i} className="flex items-center gap-3 text-sm font-medium">
+                <span className="text-[#C026FF]">✔️</span> {pt}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default WhyRafid;

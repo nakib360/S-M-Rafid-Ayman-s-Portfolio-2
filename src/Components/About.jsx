@@ -1,0 +1,32 @@
+const About = () => {
+  const skills = ["Photoshop","Illustrator","Branding","UI Design","Social Media"];
+
+  return (
+    <section className="py-24 max-w-5xl mx-auto px-6">
+      <div className="glass-card rounded-[24px] p-8 md:p-12">
+        <div className="grid md:grid-cols-5 gap-12 items-center">
+          <div className="md:col-span-2 flex justify-center">
+            <div className="relative w-48 h-48 md:w-64 md:h-64 rounded-full p-1 bg-gradient-to-b from-[#C026FF] to-[#05050A]">
+              <div className="w-full h-full rounded-full bg-[#0B0F1A] flex items-center justify-center border-4 border-[#05050A] overflow-hidden">
+                <span className="text-white/20 text-6xl">👤</span>
+              </div>
+            </div>
+          </div>
+          <div className="md:col-span-3">
+            <h2 className="text-3xl font-medium tracking-tight mb-4">S M Rafid Ayman</h2>
+            <p className="text-sm text-[#9CA3AF] leading-relaxed mb-6">
+              I am a senior graphic designer specializing in building digital trust through modern product design. Operating out of Bangladesh, I partner with international brands, SaaS companies, and creators to elevate their visual presence. My goal is simple: convert views into value through strategic aesthetics.
+            </p>
+            <div className="flex flex-wrap gap-2">
+              {skills.map((skill,i)=>(
+                <span key={i} className="text-xs font-medium border border-white/10 bg-white/5 rounded-full px-4 py-1.5 text-white">{skill}</span>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default About;
