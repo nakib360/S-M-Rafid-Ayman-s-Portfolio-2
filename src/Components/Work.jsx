@@ -32,9 +32,9 @@ const Work = () => {
         {projects.map((proj) => (
           <div
             key={proj.title}
-            className="group relative rounded-[18px] overflow-hidden bg-white/5 border border-white/10 aspect-[4/3] cursor-pointer"
+            className="group relative rounded-[18px] overflow-hidden bg-white/5 border border-white/10 aspect-4/3 cursor-pointer"
           >
-            <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent flex items-center justify-center opacity-50 group-hover:scale-105 transition-transform duration-500">
+            <div className="absolute inset-0 bg-linear-to-br from-white/5 to-transparent flex items-center justify-center opacity-50 group-hover:scale-105 transition-transform duration-500">
               <LuImage className="text-white/20" size={48} strokeWidth={1.5} />
             </div>
             <div className="absolute inset-0 bg-[#C026FF]/20 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center gap-3">
@@ -42,7 +42,7 @@ const Work = () => {
                 View Project
               </span>
             </div>
-            <div className="absolute bottom-0 left-0 w-full p-6 bg-gradient-to-t from-black/80 to-transparent">
+            <div className="absolute bottom-0 left-0 w-full p-6 bg-linear-to-t from-black/80 to-transparent">
               <h3 className="text-lg font-medium tracking-tight mb-1">{proj.title}</h3>
               <p className="text-xs text-[#9CA3AF]">{proj.type}</p>
             </div>

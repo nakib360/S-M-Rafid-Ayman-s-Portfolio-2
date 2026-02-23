@@ -5,10 +5,10 @@ const skills = ["Photoshop", "Illustrator", "Branding", "UI Design", "Social Med
 const About = () => {
   return (
     <section className="py-24 max-w-5xl mx-auto px-6">
-      <div className="glass-card rounded-[24px] p-8 md:p-12">
+      <div className="glass-card rounded-3xl p-8 md:p-12">
         <div className="grid grid-cols-1 md:grid-cols-5 gap-12 items-center">
           <div className="md:col-span-2 flex justify-center">
-            <div className="relative w-48 h-48 md:w-64 md:h-64 rounded-full p-1 bg-gradient-to-b from-[#C026FF] to-[#05050A] glow-shadow">
+            <div className="relative w-48 h-48 md:w-64 md:h-64 rounded-full p-1 bg-linear-to-b from-[#C026FF] to-[#05050A] glow-shadow">
               <div className="w-full h-full rounded-full bg-[#0B0F1A] flex items-center justify-center border-4 border-[#05050A] overflow-hidden">
                 <LuUserRound className="text-white/20" size={80} strokeWidth={1} />
               </div>
