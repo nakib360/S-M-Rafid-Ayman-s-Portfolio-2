@@ -4,7 +4,7 @@ import { containerStagger, fadeInUp, viewportOnce } from "../lib/animations";
 
 const Hero = () => {
   return (
-    <section className="relative pt-40 pb-24 md:pt-52 md:pb-32 overflow-hidden flex flex-col items-center text-center px-6">
+    <section id="home" className="relative pt-40 pb-24 md:pt-52 md:pb-32 overflow-hidden flex flex-col items-center text-center px-6">
       <div
         className="absolute inset-0 z-0 pointer-events-none"
         style={{

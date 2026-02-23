@@ -1,13 +1,20 @@
 import { LuMenu } from "react-icons/lu";
 import { motion } from "motion/react";
-import { easing } from "../lib/animations";
 
 const Header = () => {
+  const navs = [
+    { name: "Home", path: "#home" },
+    { name: "Process", path: "#process" },
+    { name: "Services", path: "#services" },
+    { name: "Work", path: "#work" },
+    { name: "Reviews", path: "#reviews" },
+    { name: "Contact", path: "#contact" }
+  ]
   return (
     <motion.nav
-      initial={{ opacity: 0, y: -20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.55, ease: easing }}
+      initial={{ y: -80 }}
+      animate={{ y: 0 }}
+      transition={{ ease: "easeInOut" }}
       className="fixed top-0 w-full z-50 glass-card border-b-0 border-white/5 transition-all duration-300"
     >
       <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
@@ -22,18 +29,13 @@ const Header = () => {
         </div>
 
         <div className="hidden md:flex items-center gap-8 text-sm font-medium text-[#9CA3AF]">
-          <a href="#process" className="hover:text-white transition-colors">
-            Process
-          </a>
-          <a href="#work" className="hover:text-white transition-colors">
-            Work
-          </a>
-          <a href="#services" className="hover:text-white transition-colors">
-            Services
-          </a>
-          <a href="#reviews" className="hover:text-white transition-colors">
-            Reviews
-          </a>
+          {navs.map((nav, idx) => (
+            <div key={idx}>
+              <a href={nav.path} className="hover:text-white transition-colors">
+                {nav.name}
+              </a>
+            </div>
+          ))}
         </div>
 
         <div className="flex items-center gap-4">
