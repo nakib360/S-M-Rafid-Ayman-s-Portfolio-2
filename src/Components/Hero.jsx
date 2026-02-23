@@ -1,3 +1,5 @@
+import { LuArrowRight, LuCircleCheck } from "react-icons/lu";
+
 const Hero = () => {
   return (
     <section className="relative pt-40 pb-24 md:pt-52 md:pb-32 overflow-hidden flex flex-col items-center text-center px-6">
@@ -19,7 +21,8 @@ const Hero = () => {
 
         <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-6 leading-[1.1]">
           <span className="text-gradient">Unlimited</span>
-          <br /> Digital Design
+          <br />
+          Digital Design
         </h1>
 
         <p className="text-lg text-[#9CA3AF] max-w-2xl mb-10 leading-relaxed">
@@ -29,33 +32,15 @@ const Hero = () => {
 
         <div className="flex flex-col sm:flex-row items-center gap-6 mb-12 text-sm text-[#9CA3AF] font-medium">
           <div className="flex items-center gap-2">
-            <iconify-icon
-              icon="solar:check-circle-linear"
-              className="text-[#C026FF]"
-              width="20"
-              height="20"
-              style={{ strokeWidth: 1.5 }}
-            ></iconify-icon>
+            <LuCircleCheck className="text-[#C026FF]" size={20} strokeWidth={1.5} />
             Flat pricing
           </div>
           <div className="flex items-center gap-2">
-            <iconify-icon
-              icon="solar:check-circle-linear"
-              className="text-[#C026FF]"
-              width="20"
-              height="20"
-              style={{ strokeWidth: 1.5 }}
-            ></iconify-icon>
+            <LuCircleCheck className="text-[#C026FF]" size={20} strokeWidth={1.5} />
             Unlimited revisions
           </div>
           <div className="flex items-center gap-2">
-            <iconify-icon
-              icon="solar:check-circle-linear"
-              className="text-[#C026FF]"
-              width="20"
-              height="20"
-              style={{ strokeWidth: 1.5 }}
-            ></iconify-icon>
+            <LuCircleCheck className="text-[#C026FF]" size={20} strokeWidth={1.5} />
             Cancel anytime
           </div>
         </div>
@@ -65,13 +50,11 @@ const Hero = () => {
           className="group relative flex items-center justify-center h-14 px-8 rounded-full bg-white text-black text-base font-bold transition-all hover:scale-[1.02] active:scale-95 glow-shadow"
         >
           Make your ideas happen
-          <iconify-icon
-            icon="solar:arrow-right-linear"
+          <LuArrowRight
             className="ml-2 group-hover:translate-x-1 transition-transform"
-            width="20"
-            height="20"
-            style={{ strokeWidth: 1.5 }}
-          ></iconify-icon>
+            size={20}
+            strokeWidth={1.5}
+          />
         </a>
       </div>
     </section>

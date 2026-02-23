@@ -12,8 +12,8 @@ import Work from "../Components/Work";
 
 const Main = () => {
   return (
-    <div className="bg-black text-white min-h-screen">
-      <Header/>
+    <div className="bg-[#05050A] text-[#F9FAFB] font-['Inter'] antialiased overflow-x-hidden selection:bg-[#C026FF]/30 selection:text-white min-h-screen">
+      <Header />
       <Hero />
       <TrustBar />
       <Process />
