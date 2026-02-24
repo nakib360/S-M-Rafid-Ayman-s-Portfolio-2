@@ -15,7 +15,7 @@ const Header = () => {
       initial={{ y: -80 }}
       animate={{ y: 0 }}
       transition={{ ease: "easeInOut" }}
-      className="fixed top-0 w-full z-50 glass-card border-b-0 border-white/5 transition-all duration-300"
+      className="fixed top-0 w-full z-50 glass-card backdrop-blur-[20px] border-b-0 border-white/5 transition-all duration-300"
     >
       <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
         <div className="flex items-center gap-4">
