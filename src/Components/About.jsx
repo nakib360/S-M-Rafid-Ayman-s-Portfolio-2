@@ -1,6 +1,7 @@
 import { LuUserRound } from "react-icons/lu";
 import { motion } from "motion/react";
 import { containerStagger, fadeInUp, viewportOnce } from "../lib/animations";
+import smPhooto from "../assets/S M Rafid Ayman.jpg"
 
 const skills = ["Photoshop", "Illustrator", "Branding", "UI Design", "Social Media"];
 
@@ -18,7 +19,7 @@ const About = () => {
           <motion.div variants={fadeInUp} className="md:col-span-2 flex justify-center">
             <div className="relative w-48 h-48 md:w-64 md:h-64 rounded-full p-1 bg-linear-to-b from-[#C026FF] to-[#05050A] glow-shadow">
               <div className="w-full h-full rounded-full bg-[#0B0F1A] flex items-center justify-center border-4 border-[#05050A] overflow-hidden">
-                <LuUserRound className="text-white/20" size={80} strokeWidth={1} />
+                <img src={smPhooto} alt="S M Rafid Ayman" />
               </div>
             </div>
           </motion.div>
