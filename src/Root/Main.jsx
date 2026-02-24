@@ -11,7 +11,7 @@ import WhyRafid from "../Components/WhyRafid";
 
 const Main = () => {
   return (
-    <div className="bg-[#05050A] text-[#F9FAFB] font-['Inter'] antialiased overflow-x-hidden selection:bg-[#C026FF]/30 selection:text-white min-h-screen">
+    <div className="relative bg-[#05050A] text-[#F9FAFB] font-['Inter'] antialiased overflow-x-hidden selection:bg-[#C026FF]/30 selection:text-white min-h-screen">
       <Header />
       <Hero />
       <TrustBar />

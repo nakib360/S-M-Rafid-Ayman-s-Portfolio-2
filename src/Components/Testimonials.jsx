@@ -69,10 +69,26 @@ const reviews = [
 ];
 
 const Testimonials = () => {
-  const visibleCards = 3;
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isAnimating, setIsAnimating] = useState(true);
+  const [visibleCards, setVisibleCards] = useState(() =>
+    typeof window !== "undefined" && window.innerWidth < 768 ? 1 : 3
+  );
   const carouselItems = [...reviews, ...reviews.slice(0, visibleCards)];
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 767px)");
+    const syncVisibleCards = () => {
+      setVisibleCards(mediaQuery.matches ? 1 : 3);
+    };
+
+    syncVisibleCards();
+    mediaQuery.addEventListener("change", syncVisibleCards);
+
+    return () => {
+      mediaQuery.removeEventListener("change", syncVisibleCards);
+    };
+  }, []);
 
   useEffect(() => {
     const intervalId = window.setInterval(() => {
@@ -116,7 +132,9 @@ const Testimonials = () => {
         <p className="text-base text-[#9CA3AF]">Don&apos;t just take my word for it.</p>
       </motion.div>
 
-      <motion.div variants={fadeInUp} className="overflow-hidden">
+      <motion.div variants={fadeInUp} className="relative overflow-hidden">
+        <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-12 sm:w-16 md:w-24 bg-linear-to-r from-[#05050A] to-transparent" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-12 sm:w-16 md:w-24 bg-linear-to-l from-[#05050A] to-transparent" />
         <motion.div
           onTransitionEnd={handleTrackTransitionEnd}
           className={`flex ${isAnimating ? "transition-transform duration-700 ease-in-out" : ""}`}
