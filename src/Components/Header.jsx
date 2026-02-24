@@ -6,7 +6,6 @@ const Header = () => {
     { name: "Home", path: "#home" },
     { name: "Process", path: "#process" },
     { name: "Services", path: "#services" },
-    { name: "Work", path: "#work" },
     { name: "Reviews", path: "#reviews" },
     { name: "Contact", path: "#contact" }
   ]

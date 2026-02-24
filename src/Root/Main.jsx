@@ -8,7 +8,6 @@ import Services from "../Components/Services";
 import Testimonials from "../Components/Testimonials";
 import TrustBar from "../Components/TrustBar";
 import WhyRafid from "../Components/WhyRafid";
-import Work from "../Components/Work";
 
 const Main = () => {
   return (
@@ -18,7 +17,6 @@ const Main = () => {
       <TrustBar />
       <Process />
       <Services />
-      <Work />
       <WhyRafid />
       <Testimonials />
       <About />
