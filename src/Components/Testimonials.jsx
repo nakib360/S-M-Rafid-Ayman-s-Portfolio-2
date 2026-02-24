@@ -142,7 +142,7 @@ const Testimonials = () => {
         >
           {carouselItems.map((review, idx) => (
             <div key={`${review.name}-${idx}`} className="w-full md:w-1/3 shrink-0 px-3">
-              <div className="glass-card rounded-[18px] p-8 flex flex-col justify-between min-h-[260px] h-full">
+              <div className="glass-card rounded-[18px] p-8 flex flex-col justify-between min-h-65 h-full">
                 <p className="text-sm text-[#9CA3AF] leading-relaxed mb-8">
                   &quot;{review.quote}&quot;
                 </p>
