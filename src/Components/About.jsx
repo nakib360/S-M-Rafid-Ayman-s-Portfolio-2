@@ -12,6 +12,7 @@ const About = () => {
       initial="initial"
       whileInView="whileInView"
       viewport={viewportOnce}
+      id="about"
       className="py-24 max-w-5xl mx-auto px-6"
     >
       <motion.div variants={fadeInUp} className="glass-card rounded-3xl p-8 md:p-12">

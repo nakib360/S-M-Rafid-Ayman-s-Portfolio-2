@@ -30,12 +30,8 @@ const Header = () => {
       <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
         <div className="flex items-center gap-4">
           <a href="#" className="text-xl font-bold tracking-tighter text-white">
-            SMRA
+            S.M  RAFID  AYMAN
           </a>
-          <div className="hidden md:block h-4 w-px bg-white/10"></div>
-          <span className="hidden md:block text-xs font-medium text-[#9CA3AF] tracking-wide uppercase">
-            Visual Conversion Strategist
-          </span>
         </div>
 
         <div className="hidden md:flex items-center gap-8 text-sm font-medium text-[#9CA3AF]">

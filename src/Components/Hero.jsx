@@ -27,25 +27,24 @@ const Hero = () => {
           >
             <div className="status-pulse-dot"></div>
             <span className="text-[11px] font-medium text-[#9CA3AF] sm:text-xs">
-              <span className="font-extrabold">S M Rafid Ayman</span> a graphic Designer from Bangladesh
+              Available for new project
             </span>
           </motion.div>
 
           <motion.h1
             variants={fadeInUp}
-            className="mb-5 text-3xl font-bold leading-[1.1] tracking-tight sm:mb-6 sm:text-5xl md:text-6xl xl:text-7xl"
+            className="mb-2 text-3xl text-nowrap font-bold leading-[1.1] tracking-tight sm:mb-3 sm:text-4xl md:text-5xl xl:text-6xl"
           >
-            <span className="text-gradient">Unlimited</span>
+            <span className="text-gradient text-2xl sm:text-3xl md:text-4xl xl:text-5xl">Assalamu Alaikum</span>
             <br />
-            Digital Design
+            I am S M Rafid Ayman
           </motion.h1>
 
           <motion.p
             variants={fadeInUp}
             className="mb-8 max-w-2xl text-sm leading-relaxed text-[#9CA3AF] sm:mx-auto sm:mb-10 sm:text-lg lg:mx-0"
           >
-            Design expertise you need to scale your brand. High-converting social
-            media, memorable logos, thumbnails &amp; striking brand visuals.
+            From <span className="font-extrabold">Chittagong, Bangladesh</span>
           </motion.p>
 
           <motion.div
@@ -60,24 +59,36 @@ const Hero = () => {
               <LuCircleCheck className="text-[#C026FF]" size={20} strokeWidth={1.5} />
               Unlimited revisions
             </div>
-            <div className="flex items-center gap-2">
-              <LuCircleCheck className="text-[#C026FF]" size={20} strokeWidth={1.5} />
-              Cancel anytime
-            </div>
           </motion.div>
 
-          <motion.a
-            variants={fadeInUp}
-            href="#contact"
-            className="group inline-flex h-12 w-full items-center justify-center rounded-full bg-white px-6 text-sm font-bold text-black transition-all hover:scale-[1.02] active:scale-95 sm:mx-auto sm:h-14 sm:w-auto sm:px-8 sm:text-base lg:mx-0 glow-shadow"
-          >
-            Make your ideas happen
-            <LuArrowRight
-              className="ml-2 transition-transform group-hover:translate-x-1"
-              size={20}
-              strokeWidth={1.5}
-            />
-          </motion.a>
+          <div className="flex items-center gap-3 md:gap-5 text-xs text-nowrap">
+            <motion.a
+              variants={fadeInUp}
+              href="#about"
+              className="group inline-flex h-10 w-full items-center justify-center rounded-full bg-white px-3 font-bold text-black transition-all hover:scale-[1.02] active:scale-95 sm:mx-auto sm:h-14 sm:w-auto sm:px-8 sm:text-base lg:mx-0 glow-shadow"
+            >
+              View Portfolio
+              <LuArrowRight
+                className="ml-2 transition-transform group-hover:translate-x-1"
+                size={20}
+                strokeWidth={1.5}
+              />
+            </motion.a>
+
+            <motion.a
+              variants={fadeInUp}
+              href="#contact"
+              className="group inline-flex h-10 w-full items-center justify-center rounded-full bg-white px-3 font-bold text-black transition-all hover:scale-[1.02] active:scale-95 sm:mx-auto sm:h-14 sm:w-auto sm:px-8 sm:text-base lg:mx-0 glow-shadow"
+            >
+              Let,s talk
+              <LuArrowRight
+                className="ml-2 transition-transform group-hover:translate-x-1"
+                size={20}
+                strokeWidth={1.5}
+              />
+            </motion.a>
+          </div>
+
         </motion.div>
 
         <div className="w-full max-w-[18rem] sm:max-w-sm md:max-w-md lg:max-w-xl">
