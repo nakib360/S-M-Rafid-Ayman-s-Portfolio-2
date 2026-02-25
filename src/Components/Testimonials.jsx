@@ -116,6 +116,9 @@ const Testimonials = () => {
     setCurrentSlide(0);
   };
 
+  const normalizedSlide = ((currentSlide % reviews.length) + reviews.length) % reviews.length;
+  const focusedSlide = visibleCards === 1 ? normalizedSlide : (normalizedSlide + 1) % reviews.length;
+
   return (
     <motion.section
       id="reviews"
@@ -140,9 +143,17 @@ const Testimonials = () => {
           className={`flex ${isAnimating ? "transition-transform duration-700 ease-in-out" : ""}`}
           style={{ transform: `translateX(-${currentSlide * (100 / visibleCards)}%)` }}
         >
-          {carouselItems.map((review, idx) => (
-            <div key={`${review.name}-${idx}`} className="w-full md:w-1/3 shrink-0 px-3">
-              <div className="glass-card rounded-[18px] p-8 flex flex-col justify-between min-h-65 h-full">
+          {carouselItems.map((review, idx) => {
+            const logicalIndex = idx % reviews.length;
+            const isFocused = logicalIndex === focusedSlide;
+
+            return (
+              <div key={`${review.name}-${idx}`} className="w-full md:w-1/3 shrink-0 px-3">
+                <div
+                  className={`glass-card rounded-[18px] p-8 flex flex-col justify-between min-h-65 h-full transition-opacity duration-500 ${
+                    isFocused ? "opacity-100" : "opacity-45"
+                  }`}
+                >
                 <p className="text-sm text-[#9CA3AF] leading-relaxed mb-8">
                   &quot;{review.quote}&quot;
                 </p>
@@ -156,8 +167,9 @@ const Testimonials = () => {
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
+              </div>
+            );
+          })}
         </motion.div>
       </motion.div>
 
@@ -166,10 +178,14 @@ const Testimonials = () => {
           <button
             key={idx}
             type="button"
-            onClick={() => setCurrentSlide(idx)}
+            onClick={() =>
+              setCurrentSlide(
+                visibleCards === 1 ? idx : (idx - 1 + reviews.length) % reviews.length
+              )
+            }
             aria-label={`Go to review slide ${idx + 1}`}
             className={`w-2 h-2 rounded-full transition-all ${
-              currentSlide % reviews.length === idx
+              focusedSlide === idx
                 ? "bg-[#C026FF] shadow-[0_0_10px_rgba(192,38,255,0.8)]"
                 : "bg-white/20 hover:bg-white/40"
             }`}
