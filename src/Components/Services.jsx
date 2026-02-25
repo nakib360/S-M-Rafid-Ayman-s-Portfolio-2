@@ -1,96 +1,131 @@
-import {
-  LuGalleryHorizontal,
-  LuCirclePlay,
-  LuSquare,
-  LuLayers,
-  LuWandSparkles,
-  LuPrinter,
-} from "react-icons/lu";
-import { motion } from "motion/react";
-import { containerStagger, fadeInUp, easing, viewportOnce } from "../lib/animations";
+import { useEffect } from "react";
+import { LuImagePlay, LuPenTool } from "react-icons/lu";
 
 const serviceCards = [
   {
-    icon: LuGalleryHorizontal,
+    icon: "solar:smartphone-update-linear",
     title: "Social Media Design",
-    text: "Thumb-stopping content optimized for every platform.",
-    color: "text-[#C026FF]",
+    text: "Scroll-stopping visuals built to grow brands",
+    points: ["Engagement optimized", "Platform ready", "Conversion focused"],
   },
   {
-    icon: LuCirclePlay,
+    reactIcon: LuImagePlay,
     title: "Thumbnail Design",
-    text: "High-CTR YouTube thumbnails that drive views instantly.",
-    color: "text-[#EC4899]",
+    text: "High CTR thumbnails that pull clicks",
+    points: ["Eye catching layouts", "Emotion driven", "Algorithm friendly"],
   },
   {
-    icon: LuSquare,
+    reactIcon: LuPenTool,
     title: "Logo Design",
-    text: "Minimal, memorable, and timeless marks for your brand.",
-    color: "text-[#C026FF]",
+    text: "Minimal and memorable brand marks",
+    points: ["Timeless identity", "Clean geometry", "Brand ready"],
   },
   {
-    icon: LuLayers,
+    icon: "solar:palette-linear",
     title: "Brand Identity",
-    text: "Comprehensive visual systems to unify your business.",
-    color: "text-[#EC4899]",
+    text: "Complete visual systems for serious brands",
+    points: ["Color systems", "Typography kits", "Brand consistency"],
   },
   {
-    icon: LuWandSparkles,
+    icon: "solar:magic-stick-3-linear",
     title: "Manipulation Design",
-    text: "Complex photo composites and surreal visual art.",
-    color: "text-[#C026FF]",
+    text: "High-end photo composites and surreal visuals",
+    points: ["Realistic blending", "Depth lighting", "Creative storytelling"],
   },
   {
-    icon: LuPrinter,
+    icon: "solar:printer-minimalistic-linear",
     title: "Print Design",
-    text: "Business cards, flyers, and merchandise that stand out.",
-    color: "text-[#EC4899]",
+    text: "Business cards, flyers and packaging visuals",
+    points: ["Print ready files", "CMYK optimized", "Premium layouts"],
   },
 ];
 
 const Services = () => {
+  useEffect(() => {
+    if (document.querySelector("script[data-iconify-script='true']")) return;
+    const script = document.createElement("script");
+    script.src = "https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js";
+    script.async = true;
+    script.setAttribute("data-iconify-script", "true");
+    document.head.appendChild(script);
+  }, []);
+
   return (
-    <motion.section
+    <section
       id="services"
-      variants={containerStagger}
-      initial="initial"
-      whileInView="whileInView"
-      viewport={viewportOnce}
-      className="py-24 bg-[#0B0F1A]"
+      className="relative overflow-x-hidden bg-[#050505] text-zinc-300 antialiased selection:bg-[#a855f7]/30 selection:text-white"
     >
-      <div className="max-w-7xl mx-auto px-6">
-        <motion.div variants={fadeInUp} className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-medium tracking-tight mb-4">
+      <div
+        className="pointer-events-none fixed inset-0 z-0 opacity-[0.03] mix-blend-screen"
+        style={{
+          backgroundImage:
+            "url(\"data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E\")",
+        }}
+      />
+      <div className="pointer-events-none absolute left-1/2 top-1/2 z-0 h-200 w-200 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#a855f7]/10 blur-[120px]" />
+      <div className="pointer-events-none absolute left-[20%] top-[20%] z-0 h-100 w-100 rounded-full bg-[#3b82f6]/10 blur-[100px]" />
+
+      <div className="relative z-10 mx-auto max-w-300 px-6 py-24 lg:px-8 lg:py-32">
+        <div className="mb-16 mx-auto flex max-w-2xl flex-col items-center text-center lg:mb-24">
+          <h2 className="mb-4 text-3xl font-semibold tracking-tight text-white md:text-5xl">
             Design Arsenal
           </h2>
-          <p className="text-base text-[#9CA3AF]">
-            Everything you need to visually dominate your market.
+          <p className="text-base font-normal leading-relaxed text-zinc-400 md:text-lg">
+            High-converting visuals built for modern brands
           </p>
-        </motion.div>
+        </div>
 
-        <motion.div variants={containerStagger} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {serviceCards.map((card, idx) => {
-            const Icon = card.icon;
-            return (
-              <motion.div
-                key={card.title}
-                initial={{ y: 36 }}
-                whileInView={{ y: 0 }}
-                viewport={viewportOnce}
-                transition={{ duration: 0.6, ease: easing, delay: idx * 0.08 }}
-                className="glass-card rounded-[18px] p-8 group hover:-translate-y-1 hover:border-[#C026FF]/50 transition-all duration-300 transform-gpu will-change-transform"
-              >
-                <div className="w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center mb-6 group-hover:shadow-[0_0_20px_rgba(192,38,255,0.2)] transition-shadow">
-                  <Icon className={card.color} size={24} strokeWidth={1.5} />
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 lg:gap-8">
+          {serviceCards.map((card) => (
+            <div
+              key={card.title}
+              className="group relative rounded-[22px] bg-white/3 p-px shadow-lg shadow-black/50 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:z-20 hover:-translate-y-1 hover:scale-[1.04] hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.8),0_0_40px_-10px_rgba(168,85,247,0.15)]"
+            >
+              <div className="absolute inset-0 rounded-[22px] bg-linear-to-br from-[#a855f7]/40 via-transparent to-[#3b82f6]/10 opacity-0 transition-opacity duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:opacity-100" />
+
+              <div className="relative flex h-full flex-col rounded-[21px] bg-[#0c0c0e]/90 p-8 shadow-[inset_0_1px_1px_rgba(255,255,255,0.05)] backdrop-blur-xl transition-colors duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:bg-[#0e0e11]/90">
+                <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-full border border-white/5 bg-white/5 shadow-[inset_0_1px_2px_rgba(255,255,255,0.05)] transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:border-[#a855f7]/20 group-hover:bg-[#a855f7]/10">
+                  {card.reactIcon ? (
+                    <card.reactIcon className="text-zinc-400 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:rotate-12 group-hover:text-[#c084fc]" size={24} />
+                  ) : (
+                    <iconify-icon
+                      icon={card.icon}
+                      width="24"
+                      height="24"
+                      className="text-zinc-400 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:rotate-12 group-hover:text-[#c084fc]"
+                    />
+                  )}
                 </div>
-                <h3 className="text-lg font-medium tracking-tight mb-2">{card.title}</h3>
-                <p className="text-sm text-[#9CA3AF]">{card.text}</p>
-              </motion.div>
-            );
-          })}
-        </motion.div>
+
+                <h3 className="mb-2 text-xl font-semibold tracking-tight text-white">{card.title}</h3>
+                <p className="mb-8 grow text-sm font-light leading-relaxed text-zinc-400">{card.text}</p>
+
+                <ul className="mb-8 space-y-3">
+                  {card.points.map((point) => (
+                    <li key={point} className="flex items-center text-xs font-normal text-zinc-300">
+                      <iconify-icon
+                        icon="solar:check-circle-linear"
+                        width="16"
+                        height="16"
+                        className="mr-3 text-[#a855f7] opacity-80"
+                      />
+                      {point}
+                    </li>
+                  ))}
+                </ul>
+
+                <a
+                  href="#"
+                  className="mt-auto block w-full rounded-full border border-white/10 px-4 py-2.5 text-center text-xs font-medium text-zinc-300 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:border-[#a855f7]/50 group-hover:bg-[#a855f7]/10 group-hover:text-white group-hover:shadow-[0_0_20px_-5px_rgba(168,85,247,0.3)]"
+                >
+                  View Designs →
+                </a>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
-    </motion.section>
+    </section>
   );
 };
 
