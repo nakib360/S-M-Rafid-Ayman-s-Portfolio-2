@@ -6,10 +6,14 @@ const SocialMediaDesign = () => {
         <div className="min-h-screen">
             <p
                 onClick={() => naviagete(-1)}
-                className="mt-25 cursor-pointer rounded-full  px-4 py-2.5 text-xs font-medium text-zinc-300 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:bg-[#a855f7]/10 group-hover:text-white group-hover:shadow-[0_0_20px_-5px_rgba(168,85,247,0.3)]"
+                className="mt-25 mx-10 inline-block cursor-pointer text-sm font-medium text-zinc-300 transition-colors duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:text-white"
             >
                 ← Back to prvious
             </p>
+
+            <div className="mt-10">
+                <p className="font-extrabold text-4xl text-center">Social Media Designs</p>
+            </div>
         </div>
     );
 };
