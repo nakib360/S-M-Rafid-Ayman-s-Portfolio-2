@@ -1,7 +1,7 @@
 import { LuUserRound } from "react-icons/lu";
 import { motion } from "motion/react";
-import { containerStagger, fadeInUp, viewportOnce } from "../lib/animations";
-import smPhooto from "../assets/S M Rafid Ayman.jpg"
+import { containerStagger, fadeInUp, viewportOnce } from "../../lib/animations";
+import smPhooto from "../../assets/S M Rafid Ayman.jpg"
 
 const skills = ["Photoshop", "Illustrator", "Branding", "UI Design", "Social Media"];
 

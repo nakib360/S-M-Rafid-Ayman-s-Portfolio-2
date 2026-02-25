@@ -1,6 +1,6 @@
 import { LuLink, LuMail, LuPhone } from "react-icons/lu";
 import { motion } from "motion/react";
-import { fadeInUp, viewportOnce } from "../lib/animations";
+import { fadeInUp, viewportOnce } from "../../lib/animations";
 
 const Footer = () => {
   return (

@@ -1,6 +1,6 @@
 import { LuBadgeCheck } from "react-icons/lu";
 import { motion } from "motion/react";
-import { containerStagger, fadeInUp, viewportOnce } from "../lib/animations";
+import { containerStagger, fadeInUp, viewportOnce } from "../../lib/animations";
 
 const points = [
   "Strategy first approach",

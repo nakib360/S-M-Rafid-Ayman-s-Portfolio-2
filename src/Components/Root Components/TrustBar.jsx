@@ -1,5 +1,5 @@
 import { motion } from "motion/react";
-import { containerStagger, fadeInUp, viewportOnce } from "../lib/animations";
+import { containerStagger, fadeInUp, viewportOnce } from "../../lib/animations";
 
 const TrustBar = () => {
   return (

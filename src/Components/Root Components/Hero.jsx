@@ -1,7 +1,7 @@
 import { LuArrowRight, LuCircleCheck } from "react-icons/lu";
 import { motion } from "motion/react";
-import { containerStagger, fadeInUp, viewportOnce } from "../lib/animations";
-import smPhoto from "../assets/rafid-ayman.png"
+import { containerStagger, fadeInUp, viewportOnce } from "../../lib/animations";
+import smPhoto from "../../assets/rafid-ayman.png"
 
 const Hero = () => {
   return (
