@@ -136,8 +136,8 @@ const Testimonials = () => {
       </motion.div>
 
       <motion.div variants={fadeInUp} className="relative overflow-hidden">
-        <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-12 sm:w-16 md:w-24 bg-linear-to-r from-[#05050A] to-transparent" />
-        <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-12 sm:w-16 md:w-24 bg-linear-to-l from-[#05050A] to-transparent" />
+        <div className="pointer-events-none absolute inset-y-0 left-0 z-10 hidden md:block md:w-24 bg-linear-to-r from-[#05050A] to-transparent" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 z-10 hidden md:block md:w-24 bg-linear-to-l from-[#05050A] to-transparent" />
         <motion.div
           onTransitionEnd={handleTrackTransitionEnd}
           className={`flex ${isAnimating ? "transition-transform duration-700 ease-in-out" : ""}`}
@@ -148,10 +148,10 @@ const Testimonials = () => {
             const isFocused = logicalIndex === focusedSlide;
 
             return (
-              <div key={`${review.name}-${idx}`} className="w-full md:w-1/3 shrink-0 px-3">
+              <div key={`${review.name}-${idx}`} className="w-full md:w-1/3 shrink-0 px-3 md:py-3">
                 <div
-                  className={`glass-card rounded-[18px] p-8 flex flex-col justify-between min-h-65 h-full transition-opacity duration-500 ${
-                    isFocused ? "opacity-100" : "opacity-45"
+                  className={`glass-card rounded-[18px] p-8 flex flex-col justify-between min-h-65 h-full transition-all duration-500 ${
+                    isFocused ? "opacity-100 md:scale-[1.03]" : "opacity-45 md:scale-[0.96]"
                   }`}
                 >
                 <p className="text-sm text-[#9CA3AF] leading-relaxed mb-8">
