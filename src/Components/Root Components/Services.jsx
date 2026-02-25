@@ -1,41 +1,48 @@
 import { useEffect } from "react";
 import { LuImagePlay, LuPenTool } from "react-icons/lu";
+import { NavLink } from "react-router";
 
 const serviceCards = [
   {
     icon: "solar:smartphone-update-linear",
     title: "Social Media Design",
     text: "Scroll-stopping visuals built to grow brands",
+    path: "social-media-designs",
     points: ["Engagement optimized", "Platform ready", "Conversion focused"],
   },
   {
     reactIcon: LuImagePlay,
     title: "Thumbnail Design",
     text: "High CTR thumbnails that pull clicks",
+    path: "thumbnail-designs",
     points: ["Eye catching layouts", "Emotion driven", "Algorithm friendly"],
   },
   {
     reactIcon: LuPenTool,
     title: "Logo Design",
     text: "Minimal and memorable brand marks",
+    path: "logo-designs",
     points: ["Timeless identity", "Clean geometry", "Brand ready"],
   },
   {
     icon: "solar:palette-linear",
     title: "Brand Identity",
     text: "Complete visual systems for serious brands",
+    path: "brand-identity",
     points: ["Color systems", "Typography kits", "Brand consistency"],
   },
   {
     icon: "solar:magic-stick-3-linear",
     title: "Manipulation Design",
     text: "High-end photo composites and surreal visuals",
+    path: "manipulation-designs",
     points: ["Realistic blending", "Depth lighting", "Creative storytelling"],
   },
   {
     icon: "solar:printer-minimalistic-linear",
     title: "Print Design",
     text: "Business cards, flyers and packaging visuals",
+    path: "print-designs",
     points: ["Print ready files", "CMYK optimized", "Premium layouts"],
   },
 ];
@@ -114,12 +121,12 @@ const Services = () => {
                   ))}
                 </ul>
 
-                <a
-                  href="#"
+                <NavLink
+                  to={card.path}
                   className="mt-auto block w-full rounded-full border border-white/10 px-4 py-2.5 text-center text-xs font-medium text-zinc-300 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:border-[#a855f7]/50 group-hover:bg-[#a855f7]/10 group-hover:text-white group-hover:shadow-[0_0_20px_-5px_rgba(168,85,247,0.3)]"
                 >
                   View Designs →
-                </a>
+                </NavLink>
               </div>
             </div>
           ))}

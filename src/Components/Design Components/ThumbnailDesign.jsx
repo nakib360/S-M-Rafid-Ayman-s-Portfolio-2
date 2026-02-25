@@ -1,6 +1,6 @@
 const ThumbnailDesign = () => {
   return (
-    <div>
+    <div className="min-h-screen">
       
     </div>
   );
