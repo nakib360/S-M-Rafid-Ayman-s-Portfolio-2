@@ -36,6 +36,7 @@ const rout = createBrowserRouter([
       {
         path: "manipulation-designs",
         Component: ManipulationDesign,
+        loader: () => fetch(`${import.meta.env.VITE_API}/uploads?category=manipulation`)
       },
       {
         path: "print-designs",
