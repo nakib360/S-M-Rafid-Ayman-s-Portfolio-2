@@ -3,10 +3,10 @@ import Main from "../Root/Main";
 import SocialMediaDesign from "../Components/Design Components/SocialMediaDesign";
 import ThumbnailDesign from "../Components/Design Components/ThumbnailDesign";
 import LogoDesign from "../Components/Design Components/LogoDesign";
-import BrandIdentity from "../Components/Design Components/BrandIdentity";
 import ManipulationDesign from "../Components/Design Components/ManipulationDesign";
 import PrintDesign from "../Components/Design Components/PrintDesign";
 import HomePage from "../Components/Pages/HomePage";
+import CoverDesign from "../Components/Design Components/CoverDesign";
 
 const rout = createBrowserRouter([
   {
@@ -30,8 +30,9 @@ const rout = createBrowserRouter([
         Component: LogoDesign,
       },
       {
-        path: "brand-identity",
-        Component: BrandIdentity,
+        path: "cover-designs",
+        Component: CoverDesign,
+        loader: () => fetch(`${import.meta.env.VITE_API}/uploads?category=cover`)
       },
       {
         path: "manipulation-designs",

@@ -26,10 +26,10 @@ const serviceCards = [
   },
   {
     icon: "solar:palette-linear",
-    title: "Brand Identity",
-    text: "Complete visual systems for serious brands",
-    path: "brand-identity",
-    points: ["Color systems", "Typography kits", "Brand consistency"],
+    title: "Cover Design",
+    text: "Professional covers that grab attention instantly",
+    path: "cover-designs",
+    points: ["Book & eBook covers", "Album & podcast covers", "Platform-ready exports"],
   },
   {
     icon: "solar:magic-stick-3-linear",
