@@ -8,17 +8,17 @@ const PrintDesign = () => {
 
   return (
     <div className="min-h-screen">
-      <p
+      <button
         onClick={() => naviagete("/#services")}
-        className="mt-25 mx-4 md:mx-10 inline-block cursor-pointer text-sm font-medium text-zinc-300 transition-colors duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:text-white"
+        className="mt-25 mx-3 md:mx-10 text-xs md:text-sm border border-gray-500 rounded-full p-1.5 px-2.5 cursor-pointer hover:bg-gray-500"
       >
         ← Back to prvious
-      </p>
+      </button>
       <div className="mt-10">
-        <p className="font-extrabold text-4xl text-center">Print Designs</p>
+        <p className="font-extrabold text-3xl md:text-4xl text-center">Print Designs</p>
 
         <Suspense fallback={
-          <div className="mx-auto my-10 w-full max-w-7xl px-4 md:px-8">
+          <div className="mx-auto my-10 w-full max-w-7xl px-3 md:px-8">
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
               {skeletonCards.map((_, index) => (
                 <div
@@ -36,7 +36,7 @@ const PrintDesign = () => {
           <Await resolve={designs}>
             {(data) => (
               Array.isArray(data) && data.length > 0 ? (
-                <div className="grid grid-cols-1 gap-6 p-8 md:grid-cols-2 lg:grid-cols-3">
+                <div className="grid grid-cols-1 gap-6 my-10 p-3 md:p-8 md:grid-cols-2 lg:grid-cols-3">
                   {data.map((design) => (
                     <div key={design._id} className="overflow-hidden rounded-xl">
                       <img
