@@ -1,9 +1,10 @@
-import { useLoaderData, useNavigate } from "react-router";
+import { Suspense } from "react";
+import { Await, useLoaderData, useNavigate } from "react-router";
 
 const CoverDesign = () => {
-  const data = useLoaderData();
-
+  const { designs } = useLoaderData();
   const naviagete = useNavigate();
+
   return (
     <div className="min-h-screen">
       <p
@@ -16,19 +17,25 @@ const CoverDesign = () => {
       <div className="mt-10">
         <p className="font-extrabold text-4xl text-center">Cover Design Projects</p>
 
-        <div className="grid grid-cols-1 gap-6 p-8 md:grid-cols-2 lg:grid-cols-3">
-          {Array.isArray(data) &&
-            data.map((design) => (
-              <div key={design._id} className="overflow-hidden rounded-xl">
-                <img
-                  src={design.imageUrl}
-                  alt={design.title || "Manipulation design"}
-                  className="h-full w-full object-cover"
-                  loading="lazy"
-                />
+        <Suspense fallback={<p className="p-8 text-center text-zinc-300">Loading cover designs...</p>}>
+          <Await resolve={designs}>
+            {(data) => (
+              <div className="grid grid-cols-1 gap-6 p-8 md:grid-cols-2 lg:grid-cols-3">
+                {Array.isArray(data) &&
+                  data.map((design) => (
+                    <div key={design._id} className="overflow-hidden rounded-xl">
+                      <img
+                        src={design.imageUrl}
+                        alt={design.title || "Cover design"}
+                        className="h-full w-full object-cover"
+                        loading="lazy"
+                      />
+                    </div>
+                  ))}
               </div>
-            ))}
-        </div>
+            )}
+          </Await>
+        </Suspense>
       </div>
     </div>
   );

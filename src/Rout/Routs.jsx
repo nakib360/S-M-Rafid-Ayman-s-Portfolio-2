@@ -32,7 +32,12 @@ const rout = createBrowserRouter([
       {
         path: "cover-designs",
         Component: CoverDesign,
-        loader: () => fetch(`${import.meta.env.VITE_API}/uploads?category=cover`)
+        loader: () =>
+          ({
+            designs: fetch(`${import.meta.env.VITE_API}/uploads?category=cover`)
+              .then((res) => (res.ok ? res.json() : []))
+              .catch(() => []),
+          }),
       },
       {
         path: "manipulation-designs",
