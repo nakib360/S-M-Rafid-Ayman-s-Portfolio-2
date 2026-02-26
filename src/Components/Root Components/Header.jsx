@@ -1,16 +1,67 @@
-import { LuMenu } from "react-icons/lu";
+import { LuBriefcase, LuCog, LuHouse, LuMail, LuMenu, LuStar } from "react-icons/lu";
 import { motion } from "motion/react";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { useLocation } from "react-router";
+import logo from "../../assets/S M Rafid Ayman Logo.svg";
 
 const Header = () => {
+  const { pathname } = useLocation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const navs = [
-    { name: "Home", path: "#home" },
-    { name: "Process", path: "#process" },
-    { name: "Services", path: "#services" },
-    { name: "Reviews", path: "#reviews" },
-    { name: "Contact", path: "#contact" }
-  ]
+  const [activePath, setActivePath] = useState("#home");
+  const navs = useMemo(
+    () => [
+      { name: "Home", path: "#home", icon: LuHouse },
+      { name: "Process", path: "#process", icon: LuCog },
+      { name: "Services", path: "#services", icon: LuBriefcase },
+      { name: "Reviews", path: "#reviews", icon: LuStar },
+      { name: "Contact", path: "#contact", icon: LuMail },
+    ],
+    []
+  );
+
+  useEffect(() => {
+    if (pathname !== "/") return;
+
+    const syncFromHash = () => {
+      if (!window.location.hash) return;
+      setActivePath(window.location.hash);
+    };
+
+    syncFromHash();
+    window.addEventListener("hashchange", syncFromHash);
+
+    const updateActiveByScroll = () => {
+      const sections = navs
+        .map((nav) => document.querySelector(nav.path))
+        .filter(Boolean);
+
+      if (!sections.length) return;
+
+      const headerOffset = 140;
+      const currentY = window.scrollY + headerOffset;
+      let matchedId = sections[0].id;
+
+      sections.forEach((section) => {
+        const sectionTop = section.getBoundingClientRect().top + window.scrollY;
+        if (sectionTop <= currentY) {
+          matchedId = section.id;
+        }
+      });
+
+      setActivePath(`#${matchedId}`);
+    };
+
+    updateActiveByScroll();
+    window.addEventListener("scroll", updateActiveByScroll, { passive: true });
+    window.addEventListener("resize", updateActiveByScroll);
+
+    return () => {
+      window.removeEventListener("hashchange", syncFromHash);
+      window.removeEventListener("scroll", updateActiveByScroll);
+      window.removeEventListener("resize", updateActiveByScroll);
+    };
+  }, [pathname, navs]);
+
   return (
     <motion.nav
       initial={{ y: -80 }}
@@ -28,17 +79,38 @@ const Header = () => {
       )}
 
       <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <a href="#" className="text-xl font-bold tracking-tighter text-white">
+        <div className="flex items-center gap-2">
+          <div>
+            <img className="h-4.5 w-4.5" src={logo} alt="Rafid's logo" />
+          </div>
+          <p className="text-xl font-bold tracking-tighter text-white">
             S M  RAFID  AYMAN
-          </a>
+          </p>
         </div>
 
         <div className="hidden md:flex items-center gap-8 text-sm font-medium text-[#9CA3AF]">
           {navs.map((nav, idx) => (
             <div key={idx}>
-              <a href={nav.path} className="hover:text-white transition-colors">
+              <a
+                href={nav.path}
+                onClick={() => setActivePath(nav.path)}
+                className={`group relative inline-flex items-center gap-2 transition-all duration-300 hover:-translate-y-0.5 hover:text-white ${
+                  activePath === nav.path ? "text-white" : "text-[#9CA3AF]"
+                }`}
+              >
+                <nav.icon
+                  size={15}
+                  strokeWidth={1.8}
+                  className={`transition-transform duration-300 group-hover:scale-110 group-hover:text-[#c084fc] ${
+                    activePath === nav.path ? "text-[#c084fc]" : ""
+                  }`}
+                />
                 {nav.name}
+                <span
+                  className={`pointer-events-none absolute -bottom-1 left-0 h-[1.5px] bg-linear-to-r from-[#c084fc] to-[#60a5fa] transition-all duration-300 group-hover:w-full ${
+                    activePath === nav.path ? "w-full" : "w-0"
+                  }`}
+                />
               </a>
             </div>
           ))}
@@ -67,7 +139,23 @@ const Header = () => {
           <div className="flex flex-col gap-5 items-stretch p-2 w-full">
             {navs.map((nav, idx) => (
               <div key={idx} className="w-full">
-                <a href={nav.path} onClick={() => setIsMenuOpen(false)} className="text-end hover:text-white transition-colors bg-white/10 p-1 rounded-sm block w-full">
+                <a
+                  href={nav.path}
+                  onClick={() => {
+                    setActivePath(nav.path);
+                    setIsMenuOpen(false);
+                  }}
+                  className={`group inline-flex w-full items-center justify-start gap-2 rounded-lg px-2 py-1 transition-all duration-300 hover:bg-white/5 hover:text-white ${
+                    activePath === nav.path ? "bg-white/8 text-white" : "text-[#9CA3AF]"
+                  }`}
+                >
+                  <nav.icon
+                    size={16}
+                    strokeWidth={1.8}
+                    className={`transition-transform duration-300 group-hover:scale-110 group-hover:text-[#c084fc] ${
+                      activePath === nav.path ? "text-[#c084fc]" : ""
+                    }`}
+                  />
                   {nav.name}
                 </a>
               </div>
