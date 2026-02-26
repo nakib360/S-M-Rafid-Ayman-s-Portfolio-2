@@ -30,7 +30,7 @@ const Header = () => {
       <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
         <div className="flex items-center gap-4">
           <a href="#" className="text-xl font-bold tracking-tighter text-white">
-            S.M  RAFID  AYMAN
+            S M  RAFID  AYMAN
           </a>
         </div>
 
