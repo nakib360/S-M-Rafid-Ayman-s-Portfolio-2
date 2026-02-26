@@ -1,8 +1,7 @@
-import { LuBriefcase, LuCog, LuHouse, LuMail, LuMenu, LuStar, LuX } from "react-icons/lu";
+import { LuBriefcase, LuCog, LuHouse, LuMail, LuMenu, LuStar, LuUser, LuX } from "react-icons/lu";
 import { motion } from "motion/react";
 import { useEffect, useMemo, useState } from "react";
 import { useLocation } from "react-router";
-import logo from "../../assets/S M Rafid Ayman Logo.svg";
 
 const Header = () => {
   const { pathname } = useLocation();
@@ -14,6 +13,7 @@ const Header = () => {
       { name: "Process", path: "#process", icon: LuCog },
       { name: "Services", path: "#services", icon: LuBriefcase },
       { name: "Reviews", path: "#reviews", icon: LuStar },
+      { name: "About", path: "#about", icon: LuUser },
       { name: "Contact", path: "#contact", icon: LuMail },
     ],
     []
@@ -80,11 +80,8 @@ const Header = () => {
 
       <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <div>
-            <img className="h-4.5 w-4.5" src={logo} alt="Rafid's logo" />
-          </div>
           <p className="text-xl font-bold tracking-tighter text-white">
-            S M  RAFID  AYMAN
+            S M Rafid Ayman
           </p>
         </div>
 
@@ -94,22 +91,19 @@ const Header = () => {
               <a
                 href={nav.path}
                 onClick={() => setActivePath(nav.path)}
-                className={`group relative inline-flex items-center gap-2 transition-all duration-300 hover:-translate-y-0.5 hover:text-white ${
-                  activePath === nav.path ? "text-white" : "text-[#9CA3AF]"
-                }`}
+                className={`group relative inline-flex items-center gap-2 transition-all duration-300 hover:-translate-y-0.5 hover:text-white ${activePath === nav.path ? "text-white" : "text-[#9CA3AF]"
+                  }`}
               >
                 <nav.icon
                   size={15}
                   strokeWidth={1.8}
-                  className={`transition-transform duration-300 group-hover:scale-110 group-hover:text-[#c084fc] ${
-                    activePath === nav.path ? "text-[#c084fc]" : ""
-                  }`}
+                  className={`transition-transform duration-300 group-hover:scale-110 group-hover:text-[#c084fc] ${activePath === nav.path ? "text-[#c084fc]" : ""
+                    }`}
                 />
                 {nav.name}
                 <span
-                  className={`pointer-events-none absolute -bottom-1 left-0 h-[1.5px] bg-linear-to-r from-[#c084fc] to-[#60a5fa] transition-all duration-300 group-hover:w-full ${
-                    activePath === nav.path ? "w-full" : "w-0"
-                  }`}
+                  className={`pointer-events-none absolute -bottom-1 left-0 h-[1.5px] bg-linear-to-r from-[#c084fc] to-[#60a5fa] transition-all duration-300 group-hover:w-full ${activePath === nav.path ? "w-full" : "w-0"
+                    }`}
                 />
               </a>
             </div>
@@ -160,16 +154,14 @@ const Header = () => {
                     setActivePath(nav.path);
                     setIsMenuOpen(false);
                   }}
-                  className={`group inline-flex w-full items-center justify-start gap-2 rounded-lg px-2 py-1 transition-all duration-300 hover:bg-white/5 hover:text-white ${
-                    activePath === nav.path ? "bg-white/8 text-white" : "text-[#9CA3AF]"
-                  }`}
+                  className={`group inline-flex w-full items-center justify-start gap-2 rounded-lg px-2 py-1 transition-all duration-300 hover:bg-white/5 hover:text-white ${activePath === nav.path ? "bg-white/8 text-white" : "text-[#9CA3AF]"
+                    }`}
                 >
                   <nav.icon
                     size={16}
                     strokeWidth={1.8}
-                    className={`transition-transform duration-300 group-hover:scale-110 group-hover:text-[#c084fc] ${
-                      activePath === nav.path ? "text-[#c084fc]" : ""
-                    }`}
+                    className={`transition-transform duration-300 group-hover:scale-110 group-hover:text-[#c084fc] ${activePath === nav.path ? "text-[#c084fc]" : ""
+                      }`}
                   />
                   {nav.name}
                 </a>
