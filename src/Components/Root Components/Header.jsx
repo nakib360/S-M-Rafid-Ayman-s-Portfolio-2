@@ -1,4 +1,4 @@
-import { LuBriefcase, LuCog, LuHouse, LuMail, LuMenu, LuStar } from "react-icons/lu";
+import { LuBriefcase, LuCog, LuHouse, LuMail, LuMenu, LuStar, LuX } from "react-icons/lu";
 import { motion } from "motion/react";
 import { useEffect, useMemo, useState } from "react";
 import { useLocation } from "react-router";
@@ -124,18 +124,33 @@ const Header = () => {
             Start Project
           </a>
           <button
-            className="md:hidden text-[#9CA3AF] hover:text-white"
-            aria-label="Open menu"
+            className="md:hidden relative h-6 w-6 text-[#9CA3AF] hover:text-white"
+            aria-label={isMenuOpen ? "Close menu" : "Open menu"}
             type="button"
             onClick={() => setIsMenuOpen((prev) => !prev)}
           >
-            <LuMenu size={24} strokeWidth={1.5} />
+            <motion.span
+              initial={false}
+              animate={{ opacity: isMenuOpen ? 0 : 1, rotate: isMenuOpen ? -90 : 0, scale: isMenuOpen ? 0.7 : 1 }}
+              transition={{ duration: 0.22 }}
+              className="absolute inset-0 flex items-center justify-center"
+            >
+              <LuMenu size={24} strokeWidth={1.5} />
+            </motion.span>
+            <motion.span
+              initial={false}
+              animate={{ opacity: isMenuOpen ? 1 : 0, rotate: isMenuOpen ? 0 : 90, scale: isMenuOpen ? 1 : 0.7 }}
+              transition={{ duration: 0.22 }}
+              className="absolute inset-0 flex items-center justify-center"
+            >
+              <LuX size={24} strokeWidth={1.7} />
+            </motion.span>
           </button>
         </div>
       </div>
 
       {isMenuOpen && (
-        <div className="absolute bg-[#05050A] border border-[#C026FF] rounded-2xl p-3 w-2/3 right-3 top-24 space-y-5">
+        <div className="md:hidden absolute bg-[#05050A] border border-[#C026FF] rounded-2xl p-3 w-2/3 right-3 top-24 space-y-5">
           <div className="flex flex-col gap-5 items-stretch p-2 w-full">
             {navs.map((nav, idx) => (
               <div key={idx} className="w-full">
