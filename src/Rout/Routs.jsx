@@ -20,33 +20,56 @@ const rout = createBrowserRouter([
       {
         path: "social-media-designs",
         Component: SocialMediaDesign,
+        loader: () => ({
+          designs: fetch(`${import.meta.env.VITE_API}/uploads?category=social-media`)
+            .then((res) => (res.ok ? res.json() : []))
+            .catch(() => []),
+        }),
       },
       {
         path: "thumbnail-designs",
         Component: ThumbnailDesign,
+        loader: () => ({
+          designs: fetch(`${import.meta.env.VITE_API}/uploads?category=thumbnail`)
+            .then((res) => (res.ok ? res.json() : []))
+            .catch(() => []),
+        }),
       },
       {
         path: "logo-designs",
         Component: LogoDesign,
+        loader: () => ({
+          designs: fetch(`${import.meta.env.VITE_API}/uploads?category=logo`)
+            .then((res) => (res.ok ? res.json() : []))
+            .catch(() => []),
+        }),
       },
       {
         path: "cover-designs",
         Component: CoverDesign,
-        loader: () =>
-          ({
-            designs: fetch(`${import.meta.env.VITE_API}/uploads?category=cover`)
-              .then((res) => (res.ok ? res.json() : []))
-              .catch(() => []),
-          }),
+        loader: () => ({
+          designs: fetch(`${import.meta.env.VITE_API}/uploads?category=cover`)
+            .then((res) => (res.ok ? res.json() : []))
+            .catch(() => []),
+        }),
       },
       {
         path: "manipulation-designs",
         Component: ManipulationDesign,
-        loader: () => fetch(`${import.meta.env.VITE_API}/uploads?category=manipulation`)
+        loader: () => ({
+          designs: fetch(`${import.meta.env.VITE_API}/uploads?category=manipulation`)
+            .then((res) => (res.ok ? res.json() : []))
+            .catch(() => []),
+        }),
       },
       {
         path: "print-designs",
         Component: PrintDesign,
+        loader: () => ({
+          designs: fetch(`${import.meta.env.VITE_API}/uploads?category=print`)
+            .then((res) => (res.ok ? res.json() : []))
+            .catch(() => []),
+        }),
       },
     ],
   },
