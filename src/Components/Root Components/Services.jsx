@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { LuImagePlay, LuPenTool } from "react-icons/lu";
+import { LuImagePlay, LuLayoutTemplate, LuPenTool } from "react-icons/lu";
 import { NavLink } from "react-router";
 
 const serviceCards = [
@@ -25,11 +25,11 @@ const serviceCards = [
     points: ["Timeless identity", "Clean geometry", "Brand ready"],
   },
   {
-    icon: "solar:palette-linear",
+    reactIcon: LuLayoutTemplate,
     title: "Cover Design",
-    text: "Professional covers that grab attention instantly",
+    text: "Platform-ready Facebook and YouTube cover banners",
     path: "cover-designs",
-    points: ["Book & eBook covers", "Album & podcast covers", "Platform-ready exports"],
+    points: ["Facebook page covers", "YouTube channel art", "Desktop + mobile safe zones"],
   },
   {
     icon: "solar:magic-stick-3-linear",
