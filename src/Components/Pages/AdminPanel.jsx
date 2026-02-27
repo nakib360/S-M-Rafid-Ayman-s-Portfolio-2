@@ -24,7 +24,16 @@ const CATEGORIES = [
 const createLocalId = () =>
   `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
 
-const getItemId = (item) => item?._id || item?.id || "";
+const normalizeId = (value) => {
+  if (!value) return "";
+  if (typeof value === "string") return value;
+  if (typeof value === "object" && typeof value.$oid === "string") return value.$oid;
+
+  const asString = String(value);
+  return asString === "[object Object]" ? "" : asString;
+};
+
+const getItemId = (item) => normalizeId(item?._id || item?.id);
 const MAX_UPLOAD_SIZE = 8 * 1024 * 1024;
 const INITIAL_REVIEW_FORM = {
   name: "",
@@ -157,7 +166,14 @@ const AdminPanel = () => {
       }
 
       const data = await response.json();
-      setReviews(Array.isArray(data) ? data : []);
+      setReviews(
+        Array.isArray(data)
+          ? data.map((review) => ({
+            ...review,
+            _id: getItemId(review),
+          }))
+          : []
+      );
     } catch (loadError) {
       setError(loadError?.message || "Failed to load reviews");
     } finally {
