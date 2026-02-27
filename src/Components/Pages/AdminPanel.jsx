@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   FiAlertCircle,
   FiCheckCircle,
@@ -74,15 +74,15 @@ const AdminPanel = () => {
     ? lastSavedAt.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
     : "Not saved yet";
 
-  const revokeUploads = (uploads = []) => {
+  const revokeUploads = useCallback((uploads = []) => {
     uploads.forEach((item) => {
       if (item?.previewUrl) URL.revokeObjectURL(item.previewUrl);
     });
-  };
+  }, []);
 
-  const revokeAllPendingUploads = (uploadsObject) => {
+  const revokeAllPendingUploads = useCallback((uploadsObject) => {
     Object.values(uploadsObject).forEach((uploads) => revokeUploads(uploads));
-  };
+  }, [revokeUploads]);
 
   const getErrorMessageFromResponse = async (response, fallback) => {
     try {
@@ -98,7 +98,7 @@ const AdminPanel = () => {
     }
   };
 
-  const fetchAllCategories = async () => {
+  const fetchAllCategories = useCallback(async () => {
     if (!apiBase) {
       throw new Error("VITE_API is missing");
     }
@@ -116,9 +116,9 @@ const AdminPanel = () => {
     );
 
     return Object.fromEntries(entries);
-  };
+  }, [apiBase]);
 
-  const loadImages = async () => {
+  const loadImages = useCallback(async () => {
     setLoading(true);
     setError("");
 
@@ -130,11 +130,11 @@ const AdminPanel = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [fetchAllCategories]);
 
   useEffect(() => {
     loadImages();
-  }, []);
+  }, [loadImages]);
 
   useEffect(() => {
     if (!notice) return undefined;
@@ -144,7 +144,7 @@ const AdminPanel = () => {
 
   useEffect(() => {
     return () => revokeAllPendingUploads(pendingUploads);
-  }, [pendingUploads]);
+  }, [pendingUploads, revokeAllPendingUploads]);
 
   const toggleStageDelete = (categoryKey, itemId) => {
     setPendingDeletes((prev) => {
@@ -315,7 +315,7 @@ const AdminPanel = () => {
       <div className="pointer-events-none fixed right-[-10%] bottom-[-20%] z-0 h-[50%] w-[50%] rounded-full bg-indigo-900/10 blur-[120px]" />
 
       <main className="relative z-10 w-full">
-        <div className="custom-scrollbar mx-auto max-w-[1700px] px-3 py-4 sm:px-5 sm:py-6 md:px-8">
+        <div className="custom-scrollbar mx-auto max-w-425 px-3 py-4 sm:px-5 sm:py-6 md:px-8">
           <section className="sticky top-2 z-20 mb-6 rounded-2xl border border-white/10 bg-slate-900/70 shadow-[0_10px_40px_rgba(2,6,23,0.45)] backdrop-blur-xl">
             <div className="flex flex-col gap-4 border-b border-white/10 p-4 sm:flex-row sm:items-center sm:justify-between md:p-5">
               <div>
@@ -410,7 +410,7 @@ const AdminPanel = () => {
           </section>
 
           {loading ? (
-            <section className="rounded-xl border border-white/10 bg-white/[0.02] p-8 text-center shadow-[0_10px_35px_rgba(2,6,23,0.35)] backdrop-blur-md">
+            <section className="rounded-xl border border-white/10 bg-white/2 p-8 text-center shadow-[0_10px_35px_rgba(2,6,23,0.35)] backdrop-blur-md">
               <p className="text-sm text-slate-300">Loading design components...</p>
             </section>
           ) : (
@@ -421,9 +421,9 @@ const AdminPanel = () => {
                 return (
                   <section
                     key={category.key}
-                    className="overflow-hidden rounded-xl border border-white/10 bg-white/[0.02] shadow-[0_10px_35px_rgba(2,6,23,0.35)] backdrop-blur-md"
+                    className="overflow-hidden rounded-xl border border-white/10 bg-white/2 shadow-[0_10px_35px_rgba(2,6,23,0.35)] backdrop-blur-md"
                   >
-                    <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 bg-white/[0.01] px-4 py-3 sm:px-5">
+                    <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 bg-white/1 px-4 py-3 sm:px-5">
                       <h2 className="text-base font-semibold text-white">{category.title}</h2>
                       <span className="rounded-full border border-white/10 bg-black/20 px-2.5 py-1 text-[11px] text-slate-400">
                         {(imagesByCategory[category.key] || []).length} existing • {(pendingUploads[category.key] || []).length} staged
