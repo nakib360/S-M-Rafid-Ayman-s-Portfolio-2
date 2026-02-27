@@ -79,7 +79,7 @@ const buildInitials = (name = "") =>
 
 const Testimonials = () => {
   const apiBase = import.meta.env.VITE_API;
-  const [reviews, setReviews] = useState(FALLBACK_REVIEWS);
+  const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(Boolean(apiBase));
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isAnimating, setIsAnimating] = useState(true);
@@ -189,7 +189,28 @@ const Testimonials = () => {
         <div className="pointer-events-none absolute inset-y-0 left-0 z-10 hidden md:block md:w-24 bg-linear-to-r from-[#05050A] to-transparent" />
         <div className="pointer-events-none absolute inset-y-0 right-0 z-10 hidden md:block md:w-24 bg-linear-to-l from-[#05050A] to-transparent" />
 
-        {!loading && reviewCount === 0 ? (
+        {loading && reviewCount === 0 ? (
+          <div className="flex flex-wrap">
+            {Array.from({ length: 4 }).map((_, idx) => (
+              <div key={idx} className="w-full md:w-1/3 shrink-0 px-3 md:py-3">
+                <div className="glass-card rounded-[18px] p-8 min-h-65 h-full animate-pulse">
+                  <div className="mb-8 space-y-3">
+                    <div className="h-3 w-full rounded bg-white/10" />
+                    <div className="h-3 w-11/12 rounded bg-white/10" />
+                    <div className="h-3 w-4/5 rounded bg-white/10" />
+                  </div>
+                  <div className="flex items-center gap-4">
+                    <div className="h-10 w-10 rounded-full bg-white/10" />
+                    <div className="space-y-2">
+                      <div className="h-3 w-24 rounded bg-white/10" />
+                      <div className="h-3 w-20 rounded bg-white/10" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : !loading && reviewCount === 0 ? (
           <div className="glass-card mx-3 rounded-[18px] p-8 text-center text-sm text-[#9CA3AF]">
             No reviews yet.
           </div>
