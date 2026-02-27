@@ -20,6 +20,7 @@ const CATEGORIES = [
   { key: "cover", title: "Cover Designs" },
   { key: "manipulation", title: "Manipulation Designs" },
   { key: "print", title: "Print Designs" },
+  { key: "brands", title: "Brands You have worked with" },
 ];
 
 const createLocalId = () =>
