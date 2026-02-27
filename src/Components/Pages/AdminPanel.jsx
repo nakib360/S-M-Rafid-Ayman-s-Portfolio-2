@@ -454,7 +454,7 @@ const AdminPanel = () => {
                                     onClick={() => toggleStageDelete(category.key, item.id)}
                                     className={`absolute top-2 right-2 inline-flex h-8 w-8 items-center justify-center rounded-md border backdrop-blur-sm transition ${item.markedForDelete
                                       ? "border-emerald-500/30 bg-emerald-500/20 text-emerald-200 opacity-100"
-                                      : "border-white/15 bg-black/65 text-slate-200 opacity-0 group-hover:opacity-100 hover:text-red-300"
+                                      : "border-white/15 bg-black/65 text-slate-200 opacity-100 md:opacity-0 md:group-hover:opacity-100 hover:text-red-300"
                                       }`}
                                     title={item.markedForDelete ? "Undo delete" : "Delete"}
                                   >
@@ -464,7 +464,7 @@ const AdminPanel = () => {
                                   <button
                                     type="button"
                                     onClick={() => removeStagedUpload(category.key, item.id)}
-                                    className="absolute top-2 right-2 inline-flex h-8 w-8 items-center justify-center rounded-md border border-white/15 bg-black/65 text-slate-200 opacity-0 backdrop-blur-sm transition group-hover:opacity-100 hover:text-red-300"
+                                    className="absolute top-2 right-2 inline-flex h-8 w-8 items-center justify-center rounded-md border border-white/15 bg-black/65 text-slate-200 opacity-100 backdrop-blur-sm transition md:opacity-0 md:group-hover:opacity-100 hover:text-red-300"
                                     title="Remove upload"
                                   >
                                     <FiX />
