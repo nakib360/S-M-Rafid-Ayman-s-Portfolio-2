@@ -3,15 +3,13 @@ import { Helmet } from "react-helmet";
 import {
   FiAlertCircle,
   FiCheckCircle,
-  FiClock,
   FiImage,
   FiPlus,
   FiSave,
   FiTrash2,
-  FiUpload,
   FiX,
 } from "react-icons/fi";
-import logo from "../../assets/Favicon.svg"
+import logo from "../../assets/Favicon.svg";
 
 const CATEGORIES = [
   { key: "social", title: "Social Media Designs" },
@@ -28,6 +26,11 @@ const createLocalId = () =>
 
 const getItemId = (item) => item?._id || item?.id || "";
 const MAX_UPLOAD_SIZE = 8 * 1024 * 1024;
+const INITIAL_REVIEW_FORM = {
+  name: "",
+  role: "",
+  quote: "",
+};
 
 const AdminPanel = () => {
   const apiBase = import.meta.env.VITE_API;
@@ -38,9 +41,14 @@ const AdminPanel = () => {
   const [pendingUploads, setPendingUploads] = useState({});
 
   const [loading, setLoading] = useState(true);
+  const [reviewsLoading, setReviewsLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [reviewSaving, setReviewSaving] = useState(false);
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
+  const [reviews, setReviews] = useState([]);
+  const [editingReviewId, setEditingReviewId] = useState("");
+  const [reviewForm, setReviewForm] = useState(INITIAL_REVIEW_FORM);
 
   const pendingDeleteCount = useMemo(
     () =>
@@ -133,6 +141,33 @@ const AdminPanel = () => {
   useEffect(() => {
     loadImages();
   }, [loadImages]);
+
+  const loadReviews = useCallback(async () => {
+    if (!apiBase) {
+      setReviewsLoading(false);
+      return;
+    }
+
+    setReviewsLoading(true);
+
+    try {
+      const response = await fetch(`${apiBase}/reviews`);
+      if (!response.ok) {
+        throw new Error("Failed to load reviews");
+      }
+
+      const data = await response.json();
+      setReviews(Array.isArray(data) ? data : []);
+    } catch (loadError) {
+      setError(loadError?.message || "Failed to load reviews");
+    } finally {
+      setReviewsLoading(false);
+    }
+  }, [apiBase]);
+
+  useEffect(() => {
+    loadReviews();
+  }, [loadReviews]);
 
   useEffect(() => {
     if (!notice) return undefined;
@@ -306,6 +341,109 @@ const AdminPanel = () => {
     return [...existingItems, ...uploadItems];
   };
 
+  const resetReviewForm = () => {
+    setEditingReviewId("");
+    setReviewForm(INITIAL_REVIEW_FORM);
+  };
+
+  const handleReviewFormChange = (field, value) => {
+    setReviewForm((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
+  };
+
+  const startEditReview = (review) => {
+    setEditingReviewId(getItemId(review));
+    setReviewForm({
+      name: review?.name || "",
+      role: review?.role || "",
+      quote: review?.quote || review?.message || "",
+    });
+  };
+
+  const saveReview = async () => {
+    if (!apiBase) {
+      setError("VITE_API is missing in frontend environment");
+      return;
+    }
+
+    const name = reviewForm.name.trim();
+    const role = reviewForm.role.trim();
+    const quote = reviewForm.quote.trim();
+
+    if (!name || !role || !quote) {
+      setError("Name, role and quote are required for a review");
+      return;
+    }
+
+    setReviewSaving(true);
+    setError("");
+
+    try {
+      const method = editingReviewId ? "PATCH" : "POST";
+      const endpoint = editingReviewId
+        ? `${apiBase}/reviews/${editingReviewId}`
+        : `${apiBase}/reviews`;
+
+      const response = await fetch(endpoint, {
+        method,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name,
+          role,
+          quote,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(
+          await getErrorMessageFromResponse(response, "Failed to save review")
+        );
+      }
+
+      resetReviewForm();
+      await loadReviews();
+      setNotice(editingReviewId ? "Review updated" : "Review added");
+    } catch (saveError) {
+      setError(saveError?.message || "Failed to save review");
+    } finally {
+      setReviewSaving(false);
+    }
+  };
+
+  const deleteReview = async (reviewId) => {
+    if (!apiBase || !reviewId) return;
+
+    setReviewSaving(true);
+    setError("");
+
+    try {
+      const response = await fetch(`${apiBase}/reviews/${reviewId}`, {
+        method: "DELETE",
+      });
+
+      if (!response.ok) {
+        throw new Error(
+          await getErrorMessageFromResponse(response, "Failed to delete review")
+        );
+      }
+
+      if (editingReviewId === reviewId) {
+        resetReviewForm();
+      }
+
+      await loadReviews();
+      setNotice("Review deleted");
+    } catch (deleteError) {
+      setError(deleteError?.message || "Failed to delete review");
+    } finally {
+      setReviewSaving(false);
+    }
+  };
+
   return (
     <div>
       <Helmet>
@@ -358,7 +496,7 @@ const AdminPanel = () => {
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-3 p-4 md:grid-cols-4 md:p-5">
+              <div className="grid grid-cols-2 gap-3 p-4 md:grid-cols-5 md:p-5">
                 <div className="rounded-xl border border-white/10 bg-black/20 p-3">
                   <p className="text-[11px] tracking-wide text-slate-400 uppercase">
                     Categories
@@ -389,6 +527,14 @@ const AdminPanel = () => {
                     {pendingDeleteCount}
                   </p>
                 </div>
+                <div className="rounded-xl border border-emerald-500/20 bg-emerald-500/10 p-3">
+                  <p className="text-[11px] tracking-wide text-emerald-200 uppercase">
+                    Reviews
+                  </p>
+                  <p className="mt-1 text-lg font-semibold text-emerald-100">
+                    {reviews.length}
+                  </p>
+                </div>
               </div>
 
               {notice ? (
@@ -404,6 +550,125 @@ const AdminPanel = () => {
                   {error}
                 </div>
               ) : null}
+            </section>
+
+            <section className="mb-6 overflow-hidden rounded-xl border border-white/10 bg-white/2 shadow-[0_10px_35px_rgba(2,6,23,0.35)] backdrop-blur-md">
+              <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 bg-white/1 px-4 py-3 sm:px-5">
+                <h2 className="text-base font-semibold text-white">Reviews</h2>
+                <span className="rounded-full border border-white/10 bg-black/20 px-2.5 py-1 text-[11px] text-slate-400">
+                  {reviews.length} total
+                </span>
+              </div>
+
+              <div className="grid gap-5 p-4 md:grid-cols-2 sm:p-5">
+                <div className="space-y-3">
+                  <div>
+                    <label className="mb-1 block text-xs text-slate-400">Name</label>
+                    <input
+                      type="text"
+                      value={reviewForm.name}
+                      onChange={(event) => handleReviewFormChange("name", event.target.value)}
+                      className="w-full rounded-lg border border-white/15 bg-black/30 px-3 py-2 text-sm text-slate-100 outline-none transition focus:border-indigo-400/50"
+                      placeholder="Client name"
+                    />
+                  </div>
+                  <div>
+                    <label className="mb-1 block text-xs text-slate-400">Role</label>
+                    <input
+                      type="text"
+                      value={reviewForm.role}
+                      onChange={(event) => handleReviewFormChange("role", event.target.value)}
+                      className="w-full rounded-lg border border-white/15 bg-black/30 px-3 py-2 text-sm text-slate-100 outline-none transition focus:border-indigo-400/50"
+                      placeholder="e.g. CEO, Company"
+                    />
+                  </div>
+                  <div>
+                    <label className="mb-1 block text-xs text-slate-400">Quote</label>
+                    <textarea
+                      rows={4}
+                      value={reviewForm.quote}
+                      onChange={(event) => handleReviewFormChange("quote", event.target.value)}
+                      className="w-full resize-y rounded-lg border border-white/15 bg-black/30 px-3 py-2 text-sm text-slate-100 outline-none transition focus:border-indigo-400/50"
+                      placeholder="Client feedback text"
+                    />
+                  </div>
+                  <div className="flex flex-wrap items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={saveReview}
+                      disabled={reviewSaving}
+                      className="inline-flex items-center gap-2 rounded-lg border border-indigo-400/20 bg-indigo-500/20 px-4 py-2 text-sm font-medium text-indigo-100 transition hover:bg-indigo-500/30 disabled:cursor-not-allowed disabled:opacity-50"
+                    >
+                      <FiSave />
+                      {reviewSaving
+                        ? editingReviewId
+                          ? "Updating..."
+                          : "Posting..."
+                        : editingReviewId
+                          ? "Update Review"
+                          : "Post Review"}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={resetReviewForm}
+                      disabled={reviewSaving}
+                      className="inline-flex items-center gap-2 rounded-lg border border-white/15 bg-black/25 px-4 py-2 text-sm font-medium text-slate-200 transition hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-50"
+                    >
+                      <FiX />
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  {reviewsLoading ? (
+                    <p className="text-sm text-slate-400">Loading reviews...</p>
+                  ) : reviews.length ? (
+                    reviews.map((review) => {
+                      const reviewId = getItemId(review);
+                      const isEditing = editingReviewId === reviewId;
+
+                      return (
+                        <div
+                          key={reviewId || review.quote}
+                          className={`rounded-lg border px-3 py-3 ${isEditing
+                            ? "border-indigo-400/40 bg-indigo-500/10"
+                            : "border-white/10 bg-black/20"
+                            }`}
+                        >
+                          <p className="line-clamp-2 text-sm text-slate-200">
+                            &quot;{review.quote || review.message}&quot;
+                          </p>
+                          <p className="mt-2 text-xs text-slate-400">
+                            {review.name || "Anonymous"} • {review.role || "No role"}
+                          </p>
+                          <div className="mt-3 flex items-center gap-2">
+                            <button
+                              type="button"
+                              onClick={() => startEditReview(review)}
+                              disabled={reviewSaving}
+                              className="rounded-md border border-white/15 px-2.5 py-1 text-xs text-slate-200 transition hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-50"
+                            >
+                              Edit
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => deleteReview(reviewId)}
+                              disabled={reviewSaving}
+                              className="inline-flex items-center gap-1 rounded-md border border-red-500/25 px-2.5 py-1 text-xs text-red-200 transition hover:bg-red-500/15 disabled:cursor-not-allowed disabled:opacity-50"
+                            >
+                              <FiTrash2 className="text-[11px]" />
+                              Delete
+                            </button>
+                          </div>
+                        </div>
+                      );
+                    })
+                  ) : (
+                    <p className="text-sm text-slate-400">No reviews found.</p>
+                  )}
+                </div>
+              </div>
             </section>
 
             {loading ? (

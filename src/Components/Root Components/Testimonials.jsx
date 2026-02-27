@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { motion } from "motion/react";
 import { containerStagger, fadeInUp, viewportOnce } from "../../lib/animations";
 
-const reviews = [
+const FALLBACK_REVIEWS = [
   {
     quote:
       "Outstanding work! The attention to detail in the logo design was impressive. They truly understood my brand vision and delivered beyond expectations.",
@@ -68,21 +68,63 @@ const reviews = [
   },
 ];
 
+const buildInitials = (name = "") =>
+  name
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0]?.toUpperCase() || "")
+    .join("") || "NA";
+
 const Testimonials = () => {
+  const apiBase = import.meta.env.VITE_API;
+  const [reviews, setReviews] = useState(FALLBACK_REVIEWS);
+  const [loading, setLoading] = useState(Boolean(apiBase));
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isAnimating, setIsAnimating] = useState(true);
   const [visibleCards, setVisibleCards] = useState(() =>
     typeof window !== "undefined" && window.innerWidth < 768 ? 1 : 3
   );
-  const carouselItems = [...reviews, ...reviews.slice(0, visibleCards)];
+
+  const reviewCount = reviews.length;
+  const carouselItems = reviewCount
+    ? [...reviews, ...reviews.slice(0, visibleCards)]
+    : [];
+
+  useEffect(() => {
+    if (!apiBase) return;
+
+    fetch(`${apiBase}/reviews`)
+      .then(async (res) => {
+        if (!res.ok) return null;
+        const data = await res.json();
+        return Array.isArray(data) ? data : [];
+      })
+      .then((data) => {
+        if (!data) return;
+
+        const formatted = data
+          .map((item) => ({
+            _id: item?._id || item?.id || "",
+            quote: item?.quote || item?.message || "",
+            name: item?.name || "Anonymous",
+            role: item?.role || "",
+            initials: item?.initials || buildInitials(item?.name || ""),
+          }))
+          .filter((item) => item.quote);
+
+        setReviews(formatted);
+      })
+      .catch(() => {
+        setReviews(FALLBACK_REVIEWS);
+      })
+      .finally(() => setLoading(false));
+  }, [apiBase]);
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(max-width: 767px)");
-    const syncVisibleCards = () => {
-      setVisibleCards(mediaQuery.matches ? 1 : 3);
-    };
-
-    syncVisibleCards();
+    const syncVisibleCards = () => setVisibleCards(mediaQuery.matches ? 1 : 3);
     mediaQuery.addEventListener("change", syncVisibleCards);
 
     return () => {
@@ -91,12 +133,14 @@ const Testimonials = () => {
   }, []);
 
   useEffect(() => {
+    if (reviewCount <= 1) return undefined;
+
     const intervalId = window.setInterval(() => {
       setCurrentSlide((prev) => prev + 1);
     }, 3500);
 
     return () => window.clearInterval(intervalId);
-  }, []);
+  }, [reviewCount]);
 
   useEffect(() => {
     if (isAnimating) return;
@@ -111,13 +155,19 @@ const Testimonials = () => {
   }, [isAnimating]);
 
   const handleTrackTransitionEnd = () => {
-    if (currentSlide !== reviews.length) return;
+    if (!reviewCount || currentSlide !== reviewCount) return;
     setIsAnimating(false);
     setCurrentSlide(0);
   };
 
-  const normalizedSlide = ((currentSlide % reviews.length) + reviews.length) % reviews.length;
-  const focusedSlide = visibleCards === 1 ? normalizedSlide : (normalizedSlide + 1) % reviews.length;
+  const normalizedSlide = reviewCount
+    ? ((currentSlide % reviewCount) + reviewCount) % reviewCount
+    : 0;
+  const focusedSlide = reviewCount
+    ? visibleCards === 1
+      ? normalizedSlide
+      : (normalizedSlide + 1) % reviewCount
+    : 0;
 
   return (
     <motion.section
@@ -138,39 +188,46 @@ const Testimonials = () => {
       <motion.div variants={fadeInUp} className="relative overflow-hidden">
         <div className="pointer-events-none absolute inset-y-0 left-0 z-10 hidden md:block md:w-24 bg-linear-to-r from-[#05050A] to-transparent" />
         <div className="pointer-events-none absolute inset-y-0 right-0 z-10 hidden md:block md:w-24 bg-linear-to-l from-[#05050A] to-transparent" />
-        <motion.div
-          onTransitionEnd={handleTrackTransitionEnd}
-          className={`flex ${isAnimating ? "transition-transform duration-700 ease-in-out" : ""}`}
-          style={{ transform: `translateX(-${currentSlide * (100 / visibleCards)}%)` }}
-        >
-          {carouselItems.map((review, idx) => {
-            const logicalIndex = idx % reviews.length;
-            const isFocused = logicalIndex === focusedSlide;
 
-            return (
-              <div key={`${review.name}-${idx}`} className="w-full md:w-1/3 shrink-0 px-3 md:py-3">
-                <div
-                  className={`glass-card rounded-[18px] p-8 flex flex-col justify-between min-h-65 h-full transition-all duration-500 ${
-                    isFocused ? "opacity-100 md:scale-[1.03]" : "opacity-45 md:scale-[0.96]"
-                  }`}
-                >
-                <p className="text-sm text-[#9CA3AF] leading-relaxed mb-8">
-                  &quot;{review.quote}&quot;
-                </p>
-                <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 rounded-full bg-white/10 border border-white/15 flex items-center justify-center text-xs font-semibold text-white/80">
-                    {review.initials}
-                  </div>
-                  <div>
-                    <h4 className="text-sm font-medium">{review.name}</h4>
-                    <p className="text-xs text-[#9CA3AF]">{review.role}</p>
+        {!loading && reviewCount === 0 ? (
+          <div className="glass-card mx-3 rounded-[18px] p-8 text-center text-sm text-[#9CA3AF]">
+            No reviews yet.
+          </div>
+        ) : (
+          <motion.div
+            onTransitionEnd={handleTrackTransitionEnd}
+            className={`flex ${isAnimating ? "transition-transform duration-700 ease-in-out" : ""}`}
+            style={{ transform: `translateX(-${currentSlide * (100 / visibleCards)}%)` }}
+          >
+            {carouselItems.map((review, idx) => {
+              const logicalIndex = idx % reviewCount;
+              const isFocused = logicalIndex === focusedSlide;
+
+              return (
+                <div key={`${review._id || review.name}-${idx}`} className="w-full md:w-1/3 shrink-0 px-3 md:py-3">
+                  <div
+                    className={`glass-card rounded-[18px] p-8 flex flex-col justify-between min-h-65 h-full transition-all duration-500 ${
+                      isFocused ? "opacity-100 md:scale-[1.03]" : "opacity-45 md:scale-[0.96]"
+                    }`}
+                  >
+                    <p className="text-sm text-[#9CA3AF] leading-relaxed mb-8">
+                      &quot;{review.quote}&quot;
+                    </p>
+                    <div className="flex items-center gap-4">
+                      <div className="w-10 h-10 rounded-full bg-white/10 border border-white/15 flex items-center justify-center text-xs font-semibold text-white/80">
+                        {review.initials}
+                      </div>
+                      <div>
+                        <h4 className="text-sm font-medium">{review.name}</h4>
+                        <p className="text-xs text-[#9CA3AF]">{review.role}</p>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
-              </div>
-            );
-          })}
-        </motion.div>
+              );
+            })}
+          </motion.div>
+        )}
       </motion.div>
 
       <motion.div variants={fadeInUp} className="flex justify-center gap-2 mt-8">
@@ -180,7 +237,7 @@ const Testimonials = () => {
             type="button"
             onClick={() =>
               setCurrentSlide(
-                visibleCards === 1 ? idx : (idx - 1 + reviews.length) % reviews.length
+                visibleCards === 1 ? idx : (idx - 1 + reviewCount) % reviewCount
               )
             }
             aria-label={`Go to review slide ${idx + 1}`}

@@ -4,19 +4,21 @@ import { containerStagger, fadeInUp, viewportOnce } from "../../lib/animations";
 import { useEffect, useState } from "react";
 
 const TrustBar = () => {
+  const apiBase = import.meta.env.VITE_API;
   // const brands = ["ACME", "GLOBAL", "NEXUS", "ZENITH", "PULSE"];
   const [brands, setBrands] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(Boolean(apiBase));
   const skeletonBrands = Array.from({ length: 5 });
 
   useEffect(() => {
-    setLoading(true);
-    fetch(`${import.meta.env.VITE_API}/uploads?category=brands`)
+    if (!apiBase) return;
+
+    fetch(`${apiBase}/uploads?category=brands`)
       .then((res) => (res.ok ? res.json() : []))
       .then((data) => setBrands(data))
       .catch(() => [])
       .finally(() => setLoading(false));
-  }, []);
+  }, [apiBase]);
 
 return (
   <motion.section
