@@ -1,3 +1,4 @@
+import { Helmet } from "react-helmet";
 import About from "../Root Components/About";
 import Contact from "../Root Components/Contact";
 import Hero from "../Root Components/Hero";
@@ -10,6 +11,11 @@ import WhyRafid from "../Root Components/WhyRafid";
 const HomePage = () => {
     return (
         <div>
+            <Helmet>
+                <meta charSet="utf-8" />
+                <title>S M Rafid Ayman | Graphic Designer</title>
+                <link rel="canonical" href="http://mysite.com/example" />
+            </Helmet>
             <Hero />
             <TrustBar />
             <Process />
