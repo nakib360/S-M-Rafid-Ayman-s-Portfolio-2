@@ -21,11 +21,11 @@ const CoverDesign = () => {
 
         <Suspense fallback={
           <div className="mx-auto my-10 w-full max-w-7xl px-3 md:px-8">
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+            <div className="columns-1 gap-6 space-y-6 md:columns-2 lg:columns-3">
               {skeletonCards.map((_, index) => (
                 <div
                   key={index}
-                  className="overflow-hidden rounded-2xl backdrop-blur-xl"
+                  className="mb-6 break-inside-avoid overflow-hidden rounded-2xl backdrop-blur-xl"
                 >
                   <div className="animate-pulse">
                     <div className="h-65 w-full rounded-xl bg-linear-to-br from-zinc-800/80 via-zinc-700/60 to-zinc-800/80" />
@@ -39,13 +39,13 @@ const CoverDesign = () => {
           <Await resolve={designs}>
             {(data) => (
               Array.isArray(data) && data.length > 0 ? (
-                <div className="grid grid-cols-1 gap-6 my-10 p-3 md:p-8 md:grid-cols-2 lg:grid-cols-3">
+                <div className="my-10 columns-1 gap-6 space-y-6 p-3 md:columns-2 md:p-8 lg:columns-3">
                   {data.map((design) => (
-                    <div key={design._id} className="overflow-hidden rounded-xl">
+                    <div key={design._id} className="mb-6 break-inside-avoid overflow-hidden rounded-xl">
                       <img
                         src={design.imageUrl}
                         alt={design.title || "Cover design"}
-                        className="h-full w-full object-cover"
+                        className="h-auto w-full object-contain"
                         loading="lazy"
                       />
                     </div>
