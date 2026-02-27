@@ -7,6 +7,7 @@ import ManipulationDesign from "../Components/Design Components/ManipulationDesi
 import PrintDesign from "../Components/Design Components/PrintDesign";
 import HomePage from "../Components/Pages/HomePage";
 import CoverDesign from "../Components/Design Components/CoverDesign";
+import AdminPanel from "../Components/Pages/AdminPanel";
 
 const rout = createBrowserRouter([
   {
@@ -21,7 +22,7 @@ const rout = createBrowserRouter([
         path: "social-media-designs",
         Component: SocialMediaDesign,
         loader: () => ({
-          designs: fetch(`${import.meta.env.VITE_API}/uploads?category=social-media`)
+          designs: fetch(`${import.meta.env.VITE_API}/uploads?category=social`)
             .then((res) => (res.ok ? res.json() : []))
             .catch(() => []),
         }),
@@ -73,6 +74,10 @@ const rout = createBrowserRouter([
       },
     ],
   },
+  {
+    path: "/manage/f1a033032bdc8be594d6",
+    Component: AdminPanel
+  }
 ]);
 
 export default rout;
