@@ -75,7 +75,7 @@ const rout = createBrowserRouter([
     ],
   },
   {
-    path: "/manage/f1a033032bdc8be594d6",
+    path: `/manage/${import.meta.env.VITE_ADMIN_KEY}`,
     Component: AdminPanel
   }
 ]);
