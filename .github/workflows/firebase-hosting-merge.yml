@@ -11,6 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       VITE_API: ${{ secrets.VITE_API }}
+      VITE_ADMIN_KEY: ${{ secrets.VITE_ADMIN_KEY }}
     steps:
       - uses: actions/checkout@v4
       - run: npm ci && npm run build
