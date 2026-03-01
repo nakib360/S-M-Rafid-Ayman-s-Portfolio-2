@@ -5,7 +5,7 @@ import smPhoto from "../../assets/rafid-ayman.png"
 
 const Hero = () => {
   return (
-    <section id="home" className="relative overflow-hidden pt-24 sm:pt-28 md:pt-44 lg:pt-52">
+    <section id="home" className="pb-10 lg:pb-0  relative overflow-hidden pt-24 sm:pt-28 md:pt-44 lg:pt-52">
       <div
         className="absolute inset-0 z-0 pointer-events-none"
         style={{
@@ -13,13 +13,13 @@ const Hero = () => {
             "radial-gradient(circle at top center, rgba(192,38,255,0.4) 0%, rgba(109,40,217,0.2) 30%, transparent 65%)",
         }}
       ></div>
-      <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-col items-center gap-8 px-5 sm:gap-10 sm:px-6 lg:flex-row lg:items-center lg:gap-14">
+      <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-col items-center gap-8 px-5 sm:flex-row sm:items-center sm:gap-14 sm:px-6">
         <motion.div
           variants={containerStagger}
           initial="initial"
           whileInView="whileInView"
           viewport={viewportOnce}
-          className="w-full max-w-3xl text-left sm:text-center lg:text-left"
+          className="w-full max-w-3xl text-left"
         >
           <motion.div
             variants={fadeInUp}
@@ -42,14 +42,14 @@ const Hero = () => {
 
           <motion.p
             variants={fadeInUp}
-            className="mb-8 max-w-2xl text-sm leading-relaxed text-[#9CA3AF] sm:mx-auto sm:mb-10 sm:text-lg lg:mx-0"
+            className="mb-8 max-w-2xl text-sm leading-relaxed text-[#9CA3AF] sm:mb-10 sm:text-lg"
           >
             From <span className="font-extrabold">Chittagong, Bangladesh</span>
           </motion.p>
 
           <motion.div
             variants={fadeInUp}
-            className="mb-10 flex flex-col items-start gap-3 text-sm font-medium text-[#9CA3AF] sm:mb-12 sm:items-center sm:gap-4 md:flex-row md:flex-wrap md:justify-center md:gap-6 lg:justify-start"
+            className="mb-10 flex flex-col items-start gap-3 text-sm font-medium text-[#9CA3AF] sm:mb-12 sm:flex-row sm:flex-wrap sm:justify-start sm:gap-6"
           >
             <div className="flex items-center gap-2">
               <LuCircleCheck className="text-[#C026FF]" size={20} strokeWidth={1.5} />
@@ -61,11 +61,11 @@ const Hero = () => {
             </div>
           </motion.div>
 
-          <div className="flex items-center gap-3 md:gap-5 text-xs text-nowrap">
+          <div className="hidden sm:flex items-center gap-3 sm:gap-5 text-xs text-nowrap">
             <motion.a
               variants={fadeInUp}
               href="#about"
-              className="group inline-flex h-10 w-full items-center justify-center rounded-full bg-white px-3 font-bold text-black transition-all hover:scale-[1.02] active:scale-95 sm:mx-auto sm:h-14 sm:w-auto sm:px-8 sm:text-base lg:mx-0 glow-shadow"
+              className="group inline-flex h-10 w-full items-center justify-center rounded-full bg-white px-3 font-bold text-black transition-all hover:scale-[1.02] active:scale-95 sm:h-12 sm:w-auto sm:px-6 sm:text-sm glow-shadow"
             >
               View Portfolio
               <LuArrowRight
@@ -78,9 +78,9 @@ const Hero = () => {
             <motion.a
               variants={fadeInUp}
               href="#contact"
-              className="group inline-flex h-10 w-full items-center justify-center rounded-full bg-white px-3 font-bold text-black transition-all hover:scale-[1.02] active:scale-95 sm:mx-auto sm:h-14 sm:w-auto sm:px-8 sm:text-base lg:mx-0 glow-shadow"
+              className="group inline-flex h-10 w-full items-center justify-center rounded-full bg-white px-3 font-bold text-black transition-all hover:scale-[1.02] active:scale-95 sm:h-12 sm:w-auto sm:px-6 sm:text-sm glow-shadow"
             >
-              Let,s talk
+              Let&apos;s talk
               <LuArrowRight
                 className="ml-2 transition-transform group-hover:translate-x-1"
                 size={20}
@@ -98,10 +98,10 @@ const Hero = () => {
           viewport={viewportOnce}
           whileHover={{ y: -8 }}
           transition={{ duration: 0.35 }}
-          className="w-full max-w-[18rem] sm:max-w-sm md:max-w-md lg:max-w-xl"
+          className="w-full max-w-[18rem] sm:max-w-sm md:max-w-xl"
         >
           <motion.img
-            className="h-auto w-full object-contain"
+            className="h-auto w-full object-contain -mt-15 sm:mt-0"
             src={smPhoto}
             alt="SM Rafid Ayman"
             style={{
@@ -113,6 +113,42 @@ const Hero = () => {
             viewport={viewportOnce}
             transition={{ duration: 0.55 }}
           />
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={viewportOnce}
+          transition={{ duration: 0.45 }}
+          className="flex w-full max-w-3xl items-center gap-3 text-xs sm:hidden"
+        >
+          <motion.a
+            href="#about"
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.96 }}
+            className="group inline-flex h-10 w-1/2 items-center justify-center rounded-full bg-white px-3 font-bold text-black transition-all sm:h-14 sm:px-8 sm:text-base glow-shadow"
+          >
+            View Portfolio
+            <LuArrowRight
+              className="ml-2 transition-transform group-hover:translate-x-1"
+              size={20}
+              strokeWidth={1.5}
+            />
+          </motion.a>
+
+          <motion.a
+            href="#contact"
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.96 }}
+            className="group inline-flex h-10 w-1/2 items-center justify-center rounded-full bg-white px-3 font-bold text-black transition-all sm:h-14 sm:px-8 sm:text-base glow-shadow"
+          >
+            Let&apos;s talk
+            <LuArrowRight
+              className="ml-2 transition-transform group-hover:translate-x-1"
+              size={20}
+              strokeWidth={1.5}
+            />
+          </motion.a>
         </motion.div>
       </div>
     </section>
