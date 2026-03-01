@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { LuImagePlay, LuLayoutTemplate, LuPenTool } from "react-icons/lu";
 import { motion } from "motion/react";
 import { NavLink } from "react-router";
-import { cardPop, containerStagger, fadeInUp, quickFadeUp, viewportOnce } from "../../lib/animations";
+import { cardPop, containerStagger, fadeInUp, quickFadeUp } from "../../lib/animations";
 
 const serviceCards = [
   {
@@ -65,7 +65,7 @@ const Services = () => {
       variants={containerStagger}
       initial="initial"
       whileInView="whileInView"
-      viewport={viewportOnce}
+      viewport={{ once: true, amount: 0.12, margin: "0px 0px -18% 0px" }}
       className="relative overflow-x-hidden bg-[#050505] text-zinc-300 antialiased selection:bg-[#a855f7]/30 selection:text-white"
     >
       <div
