@@ -1,6 +1,8 @@
 import { useEffect } from "react";
 import { LuImagePlay, LuLayoutTemplate, LuPenTool } from "react-icons/lu";
+import { motion } from "motion/react";
 import { NavLink } from "react-router";
+import { cardPop, containerStagger, fadeInUp, quickFadeUp, viewportOnce } from "../../lib/animations";
 
 const serviceCards = [
   {
@@ -58,8 +60,12 @@ const Services = () => {
   }, []);
 
   return (
-    <section
+    <motion.section
       id="services"
+      variants={containerStagger}
+      initial="initial"
+      whileInView="whileInView"
+      viewport={viewportOnce}
       className="relative overflow-x-hidden bg-[#050505] text-zinc-300 antialiased selection:bg-[#a855f7]/30 selection:text-white"
     >
       <div
@@ -73,19 +79,26 @@ const Services = () => {
       <div className="pointer-events-none absolute left-[20%] top-[20%] z-0 h-100 w-100 rounded-full bg-[#3b82f6]/10 blur-[100px]" />
 
       <div className="relative z-10 mx-auto max-w-300 px-6 py-24 lg:px-8 lg:py-32">
-        <div className="mb-16 mx-auto flex max-w-2xl flex-col items-center text-center lg:mb-24">
+        <motion.div variants={fadeInUp} className="mb-16 mx-auto flex max-w-2xl flex-col items-center text-center lg:mb-24">
           <h2 className="mb-4 text-3xl font-semibold tracking-tight text-white md:text-5xl">
             Design Arsenal
           </h2>
           <p className="text-base font-normal leading-relaxed text-zinc-400 md:text-lg">
             High-converting visuals built for modern brands
           </p>
-        </div>
+        </motion.div>
 
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 lg:gap-8">
+        <motion.div
+          variants={containerStagger}
+          className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 lg:gap-8"
+        >
           {serviceCards.map((card) => (
-            <div
+            <motion.div
               key={card.title}
+              variants={quickFadeUp}
+              whileHover={cardPop.whileHover}
+              whileTap={cardPop.whileTap}
+              transition={cardPop.transition}
               className="group relative rounded-[22px] bg-white/3 p-px shadow-lg shadow-black/50 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:z-20 hover:-translate-y-1 hover:scale-[1.04] hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.8),0_0_40px_-10px_rgba(168,85,247,0.15)]"
             >
               <div className="absolute inset-0 rounded-[22px] bg-linear-to-br from-[#a855f7]/40 via-transparent to-[#3b82f6]/10 opacity-0 transition-opacity duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:opacity-100" />
@@ -128,11 +141,11 @@ const Services = () => {
                   View Designs →
                 </NavLink>
               </div>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
-    </section>
+    </motion.section>
   );
 };
 

@@ -1,6 +1,6 @@
 import { LuArrowRight, LuCircleCheck } from "react-icons/lu";
 import { motion } from "motion/react";
-import { containerStagger, fadeInUp, viewportOnce } from "../../lib/animations";
+import { containerStagger, fadeInUp, quickFadeUp, viewportOnce } from "../../lib/animations";
 import smPhoto from "../../assets/rafid-ayman.png"
 
 const Hero = () => {
@@ -91,13 +91,29 @@ const Hero = () => {
 
         </motion.div>
 
-        <div className="w-full max-w-[18rem] sm:max-w-sm md:max-w-md lg:max-w-xl">
-          <img
+        <motion.div
+          variants={quickFadeUp}
+          initial="initial"
+          whileInView="whileInView"
+          viewport={viewportOnce}
+          whileHover={{ y: -8 }}
+          transition={{ duration: 0.35 }}
+          className="w-full max-w-[18rem] sm:max-w-sm md:max-w-md lg:max-w-xl"
+        >
+          <motion.img
             className="h-auto w-full object-contain"
             src={smPhoto}
             alt="SM Rafid Ayman"
+            style={{
+              maskImage: "linear-gradient(to bottom, black 68%, transparent 100%)",
+              WebkitMaskImage: "linear-gradient(to bottom, black 68%, transparent 100%)",
+            }}
+            initial={{ scale: 0.95, opacity: 0 }}
+            whileInView={{ scale: 1, opacity: 1 }}
+            viewport={viewportOnce}
+            transition={{ duration: 0.55 }}
           />
-        </div>
+        </motion.div>
       </div>
     </section>
   );

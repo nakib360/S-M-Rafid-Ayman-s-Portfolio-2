@@ -1,5 +1,5 @@
 import { LuBriefcase, LuCog, LuHouse, LuMail, LuMenu, LuStar, LuUser, LuX } from "react-icons/lu";
-import { motion } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useMemo, useState } from "react";
 import { useLocation } from "react-router";
 
@@ -69,14 +69,20 @@ const Header = () => {
       transition={{ ease: "easeInOut" }}
       className="fixed top-0 w-full z-50 glass-card backdrop-blur-[20px] border-b-0 border-white/5 transition-all duration-300"
     >
-      {isMenuOpen && (
-        <button
-          type="button"
-          aria-label="Close menu"
-          onClick={() => setIsMenuOpen(false)}
-          className="md:hidden fixed inset-0 top-20 bg-[#05050A]/35 z-40"
-        />
-      )}
+      <AnimatePresence>
+        {isMenuOpen && (
+          <motion.button
+            type="button"
+            aria-label="Close menu"
+            onClick={() => setIsMenuOpen(false)}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="md:hidden fixed inset-0 top-20 bg-[#05050A]/35 z-40"
+          />
+        )}
+      </AnimatePresence>
 
       <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
         <div className="flex items-center gap-2">
@@ -143,40 +149,54 @@ const Header = () => {
         </div>
       </div>
 
-      {isMenuOpen && (
-        <div className="md:hidden absolute bg-[#05050A] border border-[#C026FF] rounded-2xl p-3 w-2/3 right-3 top-24 space-y-5">
-          <div className="flex flex-col gap-5 items-stretch p-2 w-full">
-            {navs.map((nav, idx) => (
-              <div key={idx} className="w-full">
-                <a
-                  href={nav.path}
-                  onClick={() => {
-                    setActivePath(nav.path);
-                    setIsMenuOpen(false);
-                  }}
-                  className={`group inline-flex w-full items-center justify-start gap-2 rounded-lg px-2 py-1 transition-all duration-300 hover:bg-white/5 hover:text-white ${activePath === nav.path ? "bg-white/8 text-white" : "text-[#9CA3AF]"
-                    }`}
-                >
-                  <nav.icon
-                    size={16}
-                    strokeWidth={1.8}
-                    className={`transition-transform duration-300 group-hover:scale-110 group-hover:text-[#c084fc] ${activePath === nav.path ? "text-[#c084fc]" : ""
-                      }`}
-                  />
-                  {nav.name}
-                </a>
-              </div>
-            ))}
-          </div>
-          <a
-            href="#contact"
-            onClick={() => setIsMenuOpen(false)}
-            className="md:hidden flex items-center justify-center h-10 px-6 rounded-xl bg-white text-black text-sm font-bold hover:bg-gray-200 transition-colors"
+      <AnimatePresence>
+        {isMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -14, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -10, scale: 0.98 }}
+            transition={{ duration: 0.22 }}
+            className="md:hidden absolute bg-[#05050A] border border-[#C026FF] rounded-2xl p-3 w-2/3 right-3 top-24 space-y-5"
           >
-            Start Project
-          </a>
-        </div>
-      )}
+            <div className="flex flex-col gap-5 items-stretch p-2 w-full">
+              {navs.map((nav, idx) => (
+                <motion.div
+                  key={idx}
+                  className="w-full"
+                  initial={{ opacity: 0, x: 8 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.2, delay: idx * 0.03 }}
+                >
+                  <a
+                    href={nav.path}
+                    onClick={() => {
+                      setActivePath(nav.path);
+                      setIsMenuOpen(false);
+                    }}
+                    className={`group inline-flex w-full items-center justify-start gap-2 rounded-lg px-2 py-1 transition-all duration-300 hover:bg-white/5 hover:text-white ${activePath === nav.path ? "bg-white/8 text-white" : "text-[#9CA3AF]"
+                      }`}
+                  >
+                    <nav.icon
+                      size={16}
+                      strokeWidth={1.8}
+                      className={`transition-transform duration-300 group-hover:scale-110 group-hover:text-[#c084fc] ${activePath === nav.path ? "text-[#c084fc]" : ""
+                        }`}
+                    />
+                    {nav.name}
+                  </a>
+                </motion.div>
+              ))}
+            </div>
+            <a
+              href="#contact"
+              onClick={() => setIsMenuOpen(false)}
+              className="md:hidden flex items-center justify-center h-10 px-6 rounded-xl bg-white text-black text-sm font-bold hover:bg-gray-200 transition-colors"
+            >
+              Start Project
+            </a>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.nav>
   );
 };

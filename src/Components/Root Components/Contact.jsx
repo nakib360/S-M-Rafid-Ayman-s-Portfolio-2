@@ -1,5 +1,5 @@
 import { motion } from "motion/react";
-import { containerStagger, fadeInUp, viewportOnce } from "../../lib/animations";
+import { cardPop, containerStagger, fadeInUp, viewportOnce } from "../../lib/animations";
 
 const Contact = () => {
   return (
@@ -23,6 +23,9 @@ const Contact = () => {
 
         <motion.a
           variants={fadeInUp}
+          whileHover={cardPop.whileHover}
+          whileTap={cardPop.whileTap}
+          transition={cardPop.transition}
           href="mailto:hello@example.com"
           className="inline-flex items-center justify-center h-14 px-8 rounded-full bg-white text-black text-base font-bold transition-all hover:scale-[1.02] active:scale-95 glow-shadow relative z-10"
         >

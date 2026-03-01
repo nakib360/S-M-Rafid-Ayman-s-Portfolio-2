@@ -1,6 +1,6 @@
 import { LuFacebook, LuMail, LuPhone } from "react-icons/lu";
 import { motion } from "motion/react";
-import { fadeInUp, viewportOnce } from "../../lib/animations";
+import { cardPop, fadeInUp, viewportOnce } from "../../lib/animations";
 import nakibLogo from "../../assets/Nakib Logo.svg";
 
 const Footer = () => {
@@ -25,15 +25,33 @@ const Footer = () => {
         </motion.span>
 
         <motion.div variants={fadeInUp} className="flex items-center gap-6 text-sm font-medium text-[#9CA3AF]">
-          <a href="#" className="hover:text-white transition-colors flex items-center gap-1">
+          <motion.a
+            href="#"
+            whileHover={cardPop.whileHover}
+            whileTap={cardPop.whileTap}
+            transition={cardPop.transition}
+            className="hover:text-white transition-colors flex items-center gap-1"
+          >
             <LuMail size={18} strokeWidth={1.5} /> Email
-          </a>
-          <a href="#" className="hover:text-white transition-colors flex items-center gap-1">
+          </motion.a>
+          <motion.a
+            href="#"
+            whileHover={cardPop.whileHover}
+            whileTap={cardPop.whileTap}
+            transition={cardPop.transition}
+            className="hover:text-white transition-colors flex items-center gap-1"
+          >
             <LuPhone size={18} strokeWidth={1.5} /> WhatsApp
-          </a>
-          <a href="#" className="hover:text-white transition-colors flex items-center gap-1">
+          </motion.a>
+          <motion.a
+            href="#"
+            whileHover={cardPop.whileHover}
+            whileTap={cardPop.whileTap}
+            transition={cardPop.transition}
+            className="hover:text-white transition-colors flex items-center gap-1"
+          >
             <LuFacebook size={18} strokeWidth={1.5} /> Facebook
-          </a>
+          </motion.a>
         </motion.div>
 
         <motion.p variants={fadeInUp} className="text-xs text-[#9CA3AF]">

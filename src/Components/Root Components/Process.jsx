@@ -44,7 +44,14 @@ const Process = () => {
       </motion.div>
 
       <div className="relative ml-4 md:ml-0 md:pl-8">
-        <div className="absolute top-4 bottom-4 w-px bg-linear-to-b from-[#C026FF] via-[#6D28D9] to-transparent shadow-[0_0_15px_rgba(192,38,255,0.5)]"></div>
+        <motion.div
+          initial={{ scaleY: 0 }}
+          whileInView={{ scaleY: 1 }}
+          viewport={viewportOnce}
+          transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+          style={{ transformOrigin: "top" }}
+          className="absolute top-4 bottom-4 w-px bg-linear-to-b from-[#C026FF] via-[#6D28D9] to-transparent shadow-[0_0_15px_rgba(192,38,255,0.5)]"
+        />
 
         <motion.div variants={containerStagger} className="space-y-8 relative">
           {steps.map((item) => (
