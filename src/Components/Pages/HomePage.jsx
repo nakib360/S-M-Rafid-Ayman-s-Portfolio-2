@@ -1,4 +1,4 @@
-import { Helmet } from "react-helmet";
+import { useEffect } from "react";
 import About from "../Root Components/About";
 import Contact from "../Root Components/Contact";
 import Hero from "../Root Components/Hero";
@@ -9,13 +9,21 @@ import TrustBar from "../Root Components/TrustBar";
 import WhyRafid from "../Root Components/WhyRafid";
 
 const HomePage = () => {
+    useEffect(() => {
+        document.title = "S M Rafid Ayman | Graphic Designer";
+
+        const canonicalHref = window.location.origin + "/";
+        let canonical = document.querySelector("link[rel='canonical']");
+        if (!canonical) {
+            canonical = document.createElement("link");
+            canonical.setAttribute("rel", "canonical");
+            document.head.appendChild(canonical);
+        }
+        canonical.setAttribute("href", canonicalHref);
+    }, []);
+
     return (
         <div>
-            <Helmet>
-                <meta charSet="utf-8" />
-                <title>S M Rafid Ayman | Graphic Designer</title>
-                <link rel="canonical" href="http://mysite.com/example" />
-            </Helmet>
             <Hero />
             <TrustBar />
             <Process />

@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Helmet } from "react-helmet";
 import {
   FiAlertCircle,
   FiCheckCircle,
@@ -194,6 +193,19 @@ const AdminPanel = () => {
   useEffect(() => {
     return () => revokeAllPendingUploads(pendingUploads);
   }, [pendingUploads, revokeAllPendingUploads]);
+
+  useEffect(() => {
+    document.title = "S M Rafid Ayman | Admin Panel";
+
+    const canonicalHref = window.location.href;
+    let canonical = document.querySelector("link[rel='canonical']");
+    if (!canonical) {
+      canonical = document.createElement("link");
+      canonical.setAttribute("rel", "canonical");
+      document.head.appendChild(canonical);
+    }
+    canonical.setAttribute("href", canonicalHref);
+  }, []);
 
   const toggleStageDelete = (categoryKey, itemId) => {
     setPendingDeletes((prev) => {
@@ -462,11 +474,6 @@ const AdminPanel = () => {
 
   return (
     <div>
-      <Helmet>
-        <meta charSet="utf-8" />
-        <title>S M Rafid Ayman | Admin Panel</title>
-        <link rel="canonical" href="http://mysite.com/example" />
-      </Helmet>
       <div className="relative min-h-screen w-full overflow-hidden bg-slate-950 text-slate-300 antialiased selection:bg-indigo-500/30 selection:text-indigo-200">
         <div className="pointer-events-none fixed top-[-20%] left-[-10%] z-0 h-[50%] w-[50%] rounded-full bg-purple-900/20 blur-[120px]" />
         <div className="pointer-events-none fixed right-[-10%] bottom-[-20%] z-0 h-[50%] w-[50%] rounded-full bg-indigo-900/10 blur-[120px]" />
