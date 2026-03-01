@@ -39,6 +39,16 @@ const INITIAL_REVIEW_FORM = {
   role: "",
   quote: "",
 };
+const INITIAL_FOOTER_LINKS = {
+  email: "",
+  whatsapp: "",
+  facebook: "",
+};
+const FOOTER_LINK_ITEMS = [
+  { key: "email", title: "Email", placeholder: "mailto:hello@example.com" },
+  { key: "whatsapp", title: "WhatsApp", placeholder: "https://wa.me/8801XXXXXXXXX" },
+  { key: "facebook", title: "Facebook", placeholder: "https://facebook.com/your-page" },
+];
 
 const AdminPanel = () => {
   const apiBase = import.meta.env.VITE_API;
@@ -50,13 +60,17 @@ const AdminPanel = () => {
 
   const [loading, setLoading] = useState(true);
   const [reviewsLoading, setReviewsLoading] = useState(true);
+  const [linksLoading, setLinksLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [reviewSaving, setReviewSaving] = useState(false);
+  const [footerSaving, setFooterSaving] = useState(false);
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
   const [reviews, setReviews] = useState([]);
   const [editingReviewId, setEditingReviewId] = useState("");
   const [reviewForm, setReviewForm] = useState(INITIAL_REVIEW_FORM);
+  const [footerDraft, setFooterDraft] = useState(INITIAL_FOOTER_LINKS);
+  const [linksEntryId, setLinksEntryId] = useState("");
 
   const pendingDeleteCount = useMemo(
     () =>
@@ -183,6 +197,43 @@ const AdminPanel = () => {
   useEffect(() => {
     loadReviews();
   }, [loadReviews]);
+
+  const loadFooterLinks = useCallback(async () => {
+    if (!apiBase) {
+      setLinksLoading(false);
+      return;
+    }
+
+    setLinksLoading(true);
+    try {
+      const response = await fetch(`${apiBase}/links`);
+      if (!response.ok) {
+        throw new Error("Failed to load links");
+      }
+
+      const data = await response.json();
+      if (!data) {
+        setFooterDraft(INITIAL_FOOTER_LINKS);
+        setLinksEntryId("");
+        return;
+      }
+
+      setFooterDraft({
+        email: data?.email || "",
+        facebook: data?.facebook || "",
+        whatsapp: data?.whatsapp || "",
+      });
+      setLinksEntryId(getItemId(data));
+    } catch (loadError) {
+      setError(loadError?.message || "Failed to load links");
+    } finally {
+      setLinksLoading(false);
+    }
+  }, [apiBase]);
+
+  useEffect(() => {
+    loadFooterLinks();
+  }, [loadFooterLinks]);
 
   useEffect(() => {
     if (!notice) return undefined;
@@ -472,6 +523,98 @@ const AdminPanel = () => {
     }
   };
 
+  const handleFooterDraftChange = (key, value) => {
+    setFooterDraft((prev) => ({
+      ...prev,
+      [key]: value,
+    }));
+  };
+
+  const clearFooterDraft = () => {
+    setFooterDraft(INITIAL_FOOTER_LINKS);
+  };
+
+  const saveFooterLinks = async () => {
+    if (!apiBase) {
+      setError("VITE_API is missing in frontend environment");
+      return;
+    }
+
+    const payload = FOOTER_LINK_ITEMS.reduce((acc, item) => {
+      acc[item.key] = (footerDraft[item.key] || "").trim();
+      return acc;
+    }, {});
+
+    const hasAtLeastOneLink = Object.values(payload).some(Boolean);
+    if (!hasAtLeastOneLink) {
+      setError("At least one link (email/facebook/whatsapp) is required");
+      return;
+    }
+
+    setFooterSaving(true);
+    setError("");
+
+    try {
+      const response = await fetch(
+        linksEntryId ? `${apiBase}/links/${linksEntryId}` : `${apiBase}/links`,
+        {
+        method: linksEntryId ? "PUT" : "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      }
+      );
+
+      if (!response.ok) {
+        throw new Error(
+          await getErrorMessageFromResponse(response, "Failed to save footer links")
+        );
+      }
+
+      if (!linksEntryId) {
+        const created = await response.json();
+        setLinksEntryId(getItemId(created));
+      }
+
+      await loadFooterLinks();
+
+      console.log("footer-social-links-json", payload);
+      setNotice(linksEntryId ? "Footer links updated" : "Footer links created");
+    } catch (saveError) {
+      setError(saveError?.message || "Failed to save footer links");
+    } finally {
+      setFooterSaving(false);
+    }
+  };
+
+  const deleteFooterLinksEntry = async () => {
+    if (!apiBase || !linksEntryId) return;
+
+    setFooterSaving(true);
+    setError("");
+
+    try {
+      const response = await fetch(`${apiBase}/links/${linksEntryId}`, {
+        method: "DELETE",
+      });
+
+      if (!response.ok) {
+        throw new Error(
+          await getErrorMessageFromResponse(response, "Failed to delete links")
+        );
+      }
+
+      setLinksEntryId("");
+      setFooterDraft(INITIAL_FOOTER_LINKS);
+      setNotice("Footer links deleted");
+    } catch (deleteError) {
+      setError(deleteError?.message || "Failed to delete links");
+    } finally {
+      setFooterSaving(false);
+    }
+  };
+
   return (
     <div>
       <div className="relative min-h-screen w-full overflow-hidden bg-slate-950 text-slate-300 antialiased selection:bg-indigo-500/30 selection:text-indigo-200">
@@ -573,6 +716,64 @@ const AdminPanel = () => {
                   {error}
                 </div>
               ) : null}
+            </section>
+
+            <section className="mb-6 overflow-hidden rounded-xl border border-white/10 bg-white/2 shadow-[0_10px_35px_rgba(2,6,23,0.35)] backdrop-blur-md">
+              <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 bg-white/1 px-4 py-3 sm:px-5">
+                <h2 className="text-base font-semibold text-white">Footer Social Links</h2>
+                <span className="rounded-full border border-white/10 bg-black/20 px-2.5 py-1 text-[11px] text-slate-400">
+                  {linksEntryId ? `Entry: ${linksEntryId.slice(-6)}` : "No entry yet"}
+                </span>
+              </div>
+
+              <div className="space-y-3 p-4 sm:p-5">
+                {linksLoading ? (
+                  <p className="text-sm text-slate-400">Loading links...</p>
+                ) : null}
+
+                {FOOTER_LINK_ITEMS.map((item) => (
+                  <div key={item.key} className="rounded-lg border border-white/10 bg-black/20 p-3">
+                    <p className="mb-2 text-sm font-medium text-slate-200">{item.title}</p>
+                    <input
+                      type="text"
+                      value={footerDraft[item.key]}
+                      onChange={(event) => handleFooterDraftChange(item.key, event.target.value)}
+                      className="w-full rounded-lg border border-white/15 bg-black/30 px-3 py-2 text-sm text-slate-100 outline-none transition focus:border-indigo-400/50"
+                      placeholder={item.placeholder}
+                    />
+                  </div>
+                ))}
+
+                <div className="flex flex-wrap items-center gap-2 pt-2">
+                  <button
+                    type="button"
+                    onClick={saveFooterLinks}
+                    disabled={footerSaving || linksLoading}
+                    className="inline-flex items-center gap-2 rounded-lg border border-indigo-400/20 bg-indigo-500/20 px-4 py-2 text-sm font-medium text-indigo-100 transition hover:bg-indigo-500/30 disabled:cursor-not-allowed disabled:opacity-50"
+                  >
+                    <FiSave />
+                    {footerSaving ? "Saving..." : linksEntryId ? "Update Links" : "Create Links"}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={deleteFooterLinksEntry}
+                    disabled={!linksEntryId || footerSaving || linksLoading}
+                    className="inline-flex items-center gap-2 rounded-lg border border-red-500/25 bg-red-500/10 px-4 py-2 text-sm font-medium text-red-100 transition hover:bg-red-500/20 disabled:cursor-not-allowed disabled:opacity-50"
+                  >
+                    <FiTrash2 />
+                    Delete Links
+                  </button>
+                  <button
+                    type="button"
+                    onClick={clearFooterDraft}
+                    disabled={footerSaving || linksLoading}
+                    className="inline-flex items-center gap-2 rounded-lg border border-white/15 bg-black/25 px-4 py-2 text-sm font-medium text-slate-200 transition hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-50"
+                  >
+                    <FiX />
+                    Clear Form
+                  </button>
+                </div>
+              </div>
             </section>
 
             <section className="mb-6 overflow-hidden rounded-xl border border-white/10 bg-white/2 shadow-[0_10px_35px_rgba(2,6,23,0.35)] backdrop-blur-md">

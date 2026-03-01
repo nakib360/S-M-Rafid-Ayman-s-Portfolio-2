@@ -1,9 +1,78 @@
+import { useEffect, useMemo, useState } from "react";
 import { LuFacebook, LuMail, LuPhone } from "react-icons/lu";
 import { motion } from "motion/react";
 import { cardPop, fadeInUp, viewportOnce } from "../../lib/animations";
 import nakibLogo from "../../assets/Nakib Logo.svg";
 
+const toAbsoluteUrl = (value = "") => {
+  const trimmed = value.trim();
+  if (!trimmed) return "#";
+  if (/^https?:\/\//i.test(trimmed)) return trimmed;
+  return `https://${trimmed}`;
+};
+
+const toGmailComposeUrl = (value = "") => {
+  const trimmed = value.trim();
+  if (!trimmed) return "#";
+
+  if (/^https?:\/\//i.test(trimmed)) return trimmed;
+
+  const normalizedEmail = trimmed.replace(/^mailto:/i, "");
+  if (!normalizedEmail.includes("@")) return "#";
+
+  return `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(normalizedEmail)}`;
+};
+
+const toWhatsappUrl = (value = "") => {
+  const trimmed = value.trim();
+  if (!trimmed) return "#";
+
+  if (/^https?:\/\//i.test(trimmed)) return trimmed;
+
+  const digits = trimmed.replace(/[^\d]/g, "");
+  if (!digits) return "#";
+
+  return `https://wa.me/${digits}`;
+};
+
 const Footer = () => {
+  const apiBase = import.meta.env.VITE_API;
+  const [links, setLinks] = useState({
+    email: "",
+    facebook: "",
+    whatsapp: "",
+  });
+
+  useEffect(() => {
+    if (!apiBase) return;
+
+    fetch(`${apiBase}/links`)
+      .then(async (res) => {
+        if (!res.ok) return null;
+        return res.json();
+      })
+      .then((data) => {
+        if (!data || typeof data !== "object") return;
+
+        setLinks({
+          email: data?.email || "",
+          facebook: data?.facebook || "",
+          whatsapp: data?.whatsapp || "",
+        });
+      })
+      .catch(() => {
+        setLinks({
+          email: "",
+          facebook: "",
+          whatsapp: "",
+        });
+      });
+  }, [apiBase]);
+
+  const emailHref = useMemo(() => toGmailComposeUrl(links.email), [links.email]);
+  const facebookHref = useMemo(() => toAbsoluteUrl(links.facebook), [links.facebook]);
+  const whatsappHref = useMemo(() => toWhatsappUrl(links.whatsapp), [links.whatsapp]);
+
   return (
     <motion.footer
       initial="initial"
@@ -26,7 +95,9 @@ const Footer = () => {
 
         <motion.div variants={fadeInUp} className="flex items-center gap-6 text-sm font-medium text-[#9CA3AF]">
           <motion.a
-            href="#"
+            href={emailHref}
+            target="_blank"
+            rel="noreferrer"
             whileHover={cardPop.whileHover}
             whileTap={cardPop.whileTap}
             transition={cardPop.transition}
@@ -35,7 +106,9 @@ const Footer = () => {
             <LuMail size={18} strokeWidth={1.5} /> Email
           </motion.a>
           <motion.a
-            href="#"
+            href={whatsappHref}
+            target="_blank"
+            rel="noreferrer"
             whileHover={cardPop.whileHover}
             whileTap={cardPop.whileTap}
             transition={cardPop.transition}
@@ -44,7 +117,9 @@ const Footer = () => {
             <LuPhone size={18} strokeWidth={1.5} /> WhatsApp
           </motion.a>
           <motion.a
-            href="#"
+            href={facebookHref}
+            target="_blank"
+            rel="noreferrer"
             whileHover={cardPop.whileHover}
             whileTap={cardPop.whileTap}
             transition={cardPop.transition}
