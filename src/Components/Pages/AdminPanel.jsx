@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   FiAlertCircle,
   FiCheckCircle,
+  FiChevronRight,
   FiImage,
   FiPlus,
   FiSave,
@@ -71,6 +72,9 @@ const AdminPanel = () => {
   const [reviewForm, setReviewForm] = useState(INITIAL_REVIEW_FORM);
   const [footerDraft, setFooterDraft] = useState(INITIAL_FOOTER_LINKS);
   const [linksEntryId, setLinksEntryId] = useState("");
+  const [collapsedCategories, setCollapsedCategories] = useState(() =>
+    Object.fromEntries(CATEGORIES.map(({ key }) => [key, true]))
+  );
 
   const pendingDeleteCount = useMemo(
     () =>
@@ -317,6 +321,13 @@ const AdminPanel = () => {
         [categoryKey]: categoryUploads.filter((item) => item.localId !== localId),
       };
     });
+  };
+
+  const toggleCategory = (categoryKey) => {
+    setCollapsedCategories((prev) => ({
+      ...prev,
+      [categoryKey]: !prev[categoryKey],
+    }));
   };
 
   const discardChanges = () => {
@@ -844,7 +855,7 @@ const AdminPanel = () => {
                   </div>
                 </div>
 
-                <div className="space-y-2">
+                <div className="invisible-scrollbar space-y-2 max-h-100 overflow-y-auto">
                   {reviewsLoading ? (
                     <p className="text-sm text-slate-400">Loading reviews...</p>
                   ) : reviews.length ? (
@@ -903,6 +914,7 @@ const AdminPanel = () => {
               <div className="space-y-6 pb-20">
                 {CATEGORIES.map((category) => {
                   const items = getCategoryItems(category.key);
+                  const isCollapsed = Boolean(collapsedCategories[category.key]);
 
                   return (
                     <section
@@ -910,14 +922,31 @@ const AdminPanel = () => {
                       className="overflow-hidden rounded-xl border border-white/10 bg-white/2 shadow-[0_10px_35px_rgba(2,6,23,0.35)] backdrop-blur-md"
                     >
                       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 bg-white/1 px-4 py-3 sm:px-5">
-                        <h2 className="text-base font-semibold text-white">{category.title}</h2>
+                        <div className="flex items-center gap-2">
+                          <button
+                            type="button"
+                            onClick={() => toggleCategory(category.key)}
+                            className="inline-flex h-7 w-7 items-center justify-center rounded-md border border-white/15 bg-black/25 text-slate-200 transition hover:bg-white/10"
+                            aria-label={`${isCollapsed ? "Expand" : "Collapse"} ${category.title}`}
+                            aria-expanded={!isCollapsed}
+                          >
+                            <FiChevronRight
+                              className={`text-sm transition-transform duration-300 ${isCollapsed ? "rotate-0" : "rotate-90"}`}
+                            />
+                          </button>
+                          <h2 className="text-base font-semibold text-white">{category.title}</h2>
+                        </div>
                         <span className="rounded-full border border-white/10 bg-black/20 px-2.5 py-1 text-[11px] text-slate-400">
                           {(imagesByCategory[category.key] || []).length} existing • {(pendingUploads[category.key] || []).length} staged
                         </span>
                       </div>
 
-                      <div className="p-4 sm:p-5">
-                        <div className="grid grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-5">
+                      <div
+                        className={`grid transition-all duration-300 ease-out ${isCollapsed ? "grid-rows-[0fr] opacity-0" : "grid-rows-[1fr] opacity-100"}`}
+                      >
+                        <div className="min-h-0 overflow-hidden">
+                          <div className="p-4 sm:p-5">
+                            <div className="grid grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-5">
                           {items.map((item) => {
                             const isExisting = item.type === "existing";
 
@@ -972,40 +1001,42 @@ const AdminPanel = () => {
                             );
                           })}
 
-                          <button
-                            type="button"
-                            onClick={() => fileInputRefs.current[category.key]?.click()}
-                            className="group flex aspect-square flex-col items-center justify-center rounded-xl border border-dashed border-white/20 bg-black/20 p-4 text-center transition hover:border-indigo-400/40 hover:bg-indigo-500/10"
-                          >
-                            <div className="mb-2 flex h-10 w-10 items-center justify-center rounded-full bg-white/10 transition group-hover:bg-indigo-500/20">
-                              <FiPlus className="text-lg text-slate-200" />
+                              <button
+                                type="button"
+                                onClick={() => fileInputRefs.current[category.key]?.click()}
+                                className="group flex aspect-square flex-col items-center justify-center rounded-xl border border-dashed border-white/20 bg-black/20 p-4 text-center transition hover:border-indigo-400/40 hover:bg-indigo-500/10"
+                              >
+                                <div className="mb-2 flex h-10 w-10 items-center justify-center rounded-full bg-white/10 transition group-hover:bg-indigo-500/20">
+                                  <FiPlus className="text-lg text-slate-200" />
+                                </div>
+                                <p className="text-sm font-medium text-slate-200">Upload Image</p>
+                                <p className="mt-1 text-xs text-slate-500">PNG, JPG</p>
+                                <input
+                                  ref={(element) => {
+                                    fileInputRefs.current[category.key] = element;
+                                  }}
+                                  type="file"
+                                  accept="image/png,image/jpeg,image/jpg"
+                                  multiple
+                                  onChange={(event) => {
+                                    stageUploadFiles(category.key, event.target.files);
+                                    event.target.value = "";
+                                  }}
+                                  className="hidden"
+                                />
+                              </button>
                             </div>
-                            <p className="text-sm font-medium text-slate-200">Upload Image</p>
-                            <p className="mt-1 text-xs text-slate-500">PNG, JPG</p>
-                            <input
-                              ref={(element) => {
-                                fileInputRefs.current[category.key] = element;
-                              }}
-                              type="file"
-                              accept="image/png,image/jpeg,image/jpg"
-                              multiple
-                              onChange={(event) => {
-                                stageUploadFiles(category.key, event.target.files);
-                                event.target.value = "";
-                              }}
-                              className="hidden"
-                            />
-                          </button>
-                        </div>
 
-                        {!items.length ? (
-                          <div className="mt-4 rounded-lg border border-white/10 bg-black/20 p-3 text-sm text-slate-400">
-                            <div className="inline-flex items-center gap-2">
-                              <FiImage />
-                              No images in this category yet.
-                            </div>
+                            {!items.length ? (
+                              <div className="mt-4 rounded-lg border border-white/10 bg-black/20 p-3 text-sm text-slate-400">
+                                <div className="inline-flex items-center gap-2">
+                                  <FiImage />
+                                  No images in this category yet.
+                                </div>
+                              </div>
+                            ) : null}
                           </div>
-                        ) : null}
+                        </div>
                       </div>
                     </section>
                   );
@@ -1031,6 +1062,15 @@ const AdminPanel = () => {
 
         .custom-scrollbar::-webkit-scrollbar-thumb:hover {
           background-color: rgba(255, 255, 255, 0.24);
+        }
+
+        .invisible-scrollbar {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
+
+        .invisible-scrollbar::-webkit-scrollbar {
+          display: none;
         }
       `}</style>
       </div>
