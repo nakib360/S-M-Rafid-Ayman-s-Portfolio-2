@@ -1,39 +1,8 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { LuFacebook, LuMail, LuPhone } from "react-icons/lu";
 import { motion } from "motion/react";
 import { cardPop, fadeInUp, viewportOnce } from "../../lib/animations";
 import nakibLogo from "../../assets/Nakib Logo.svg";
-
-const toAbsoluteUrl = (value = "") => {
-  const trimmed = value.trim();
-  if (!trimmed) return "#";
-  if (/^https?:\/\//i.test(trimmed)) return trimmed;
-  return `https://${trimmed}`;
-};
-
-const toGmailComposeUrl = (value = "") => {
-  const trimmed = value.trim();
-  if (!trimmed) return "#";
-
-  if (/^https?:\/\//i.test(trimmed)) return trimmed;
-
-  const normalizedEmail = trimmed.replace(/^mailto:/i, "");
-  if (!normalizedEmail.includes("@")) return "#";
-
-  return `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(normalizedEmail)}`;
-};
-
-const toWhatsappUrl = (value = "") => {
-  const trimmed = value.trim();
-  if (!trimmed) return "#";
-
-  if (/^https?:\/\//i.test(trimmed)) return trimmed;
-
-  const digits = trimmed.replace(/[^\d]/g, "");
-  if (!digits) return "#";
-
-  return `https://wa.me/${digits}`;
-};
 
 const Footer = () => {
   const apiBase = import.meta.env.VITE_API;
@@ -69,10 +38,6 @@ const Footer = () => {
       });
   }, [apiBase]);
 
-  const emailHref = useMemo(() => toGmailComposeUrl(links.email), [links.email]);
-  const facebookHref = useMemo(() => toAbsoluteUrl(links.facebook), [links.facebook]);
-  const whatsappHref = useMemo(() => toWhatsappUrl(links.whatsapp), [links.whatsapp]);
-
   return (
     <motion.footer
       initial="initial"
@@ -95,7 +60,7 @@ const Footer = () => {
 
         <motion.div variants={fadeInUp} className="flex items-center gap-6 text-sm font-medium text-[#9CA3AF]">
           <motion.a
-            href={emailHref}
+            href={`mailto:${links.email}`}
             target="_blank"
             rel="noreferrer"
             whileHover={cardPop.whileHover}
@@ -106,7 +71,7 @@ const Footer = () => {
             <LuMail size={18} strokeWidth={1.5} /> Email
           </motion.a>
           <motion.a
-            href={whatsappHref}
+            href={links.whatsapp}
             target="_blank"
             rel="noreferrer"
             whileHover={cardPop.whileHover}
@@ -117,7 +82,7 @@ const Footer = () => {
             <LuPhone size={18} strokeWidth={1.5} /> WhatsApp
           </motion.a>
           <motion.a
-            href={facebookHref}
+            href={links.facebook}
             target="_blank"
             rel="noreferrer"
             whileHover={cardPop.whileHover}
