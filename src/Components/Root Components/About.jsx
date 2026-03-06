@@ -2,7 +2,7 @@ import { motion } from "motion/react";
 import { cardPop, containerStagger, fadeInUp, quickFadeUp, viewportOnce } from "../../lib/animations";
 import smPhooto from "../../assets/S M Rafid Ayman.jpg"
 
-const skills = ["Photoshop", "Illustrator", "Branding", "UI Design", "Social Media"];
+const skills = ["Brand Identity", "Social Media Creatives", "Content Visuals", "Marketing Graphics", "Print & Packaging"];
 
 const About = () => {
   return (
@@ -30,11 +30,7 @@ const About = () => {
           <motion.div variants={fadeInUp} className="md:col-span-3">
             <h2 className="text-3xl font-medium tracking-tight mb-4">S M Rafid Ayman</h2>
             <p className="text-sm text-[#9CA3AF] leading-relaxed mb-6">
-              I am a senior graphic designer specializing in building digital trust
-              through modern product design. Operating out of Bangladesh, I partner
-              with international brands, SaaS companies, and creators to elevate
-              their visual presence. My goal is simple: convert views into value
-              through strategic aesthetics.
+              I am S M Rafid Ayman, a creative Graphic Designer with a strong focus on modern, clean, and effective visual design. Based in Chattogram, Bangladesh, I work with clients to create impactful designs that strengthen brand identity and improve digital presence. Alongside client work, I continuously refine my skills to stay aligned with current design trends and industry standards.
             </p>
             <div className="flex flex-wrap gap-2">
               {skills.map((skill) => (

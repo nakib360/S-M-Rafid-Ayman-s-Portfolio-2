@@ -81,7 +81,7 @@ const Services = () => {
       <div className="relative z-10 mx-auto max-w-300 px-6 py-24 lg:px-8 lg:py-32">
         <motion.div variants={fadeInUp} className="mb-16 mx-auto flex max-w-2xl flex-col items-center text-center lg:mb-24">
           <h2 className="mb-4 text-3xl font-semibold tracking-tight text-white md:text-5xl">
-            Design Arsenal
+            View My Portfolio
           </h2>
           <p className="text-base font-normal leading-relaxed text-zinc-400 md:text-lg">
             High-converting visuals built for modern brands
@@ -136,7 +136,7 @@ const Services = () => {
 
                 <NavLink
                   to={card.path}
-                  className="mt-auto block w-full rounded-full border border-white/10 px-4 py-2.5 text-center text-xs font-medium text-zinc-300 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:border-[#a855f7]/50 group-hover:bg-[#a855f7]/10 group-hover:text-white group-hover:shadow-[0_0_20px_-5px_rgba(168,85,247,0.3)]"
+                  className="mt-auto bg-[#a855f7]/20  block w-full rounded-full border border-white/10 px-4 py-2.5 text-center text-xs font-medium text-zinc-300 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:border-[#a855f7]/50 group-hover:bg-[#a855f7]/10 group-hover:text-white group-hover:shadow-[0_0_20px_-5px_rgba(168,85,247,0.3)]"
                 >
                   View Designs →
                 </NavLink>
