@@ -64,8 +64,7 @@ const Services = () => {
       id="services"
       variants={containerStagger}
       initial="initial"
-      whileInView="whileInView"
-      viewport={{ once: true, amount: 0.12, margin: "0px 0px -18% 0px" }}
+      animate="whileInView"
       className="relative overflow-x-hidden bg-[#050505] text-zinc-300 antialiased selection:bg-[#a855f7]/30 selection:text-white"
     >
       <div
