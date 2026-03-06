@@ -135,7 +135,7 @@ const Services = () => {
 
                 <NavLink
                   to={card.path}
-                  className="mt-auto bg-[#a855f7]/20  block w-full rounded-full border border-white/10 px-4 py-2.5 text-center text-xs font-medium text-zinc-300 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:border-[#a855f7]/50 group-hover:bg-[#a855f7]/10 group-hover:text-white group-hover:shadow-[0_0_20px_-5px_rgba(168,85,247,0.3)]"
+                  className="mt-auto block w-full rounded-full bg-linear-to-r from-[#C026FF] to-[#350c7d] px-4 py-2.5 text-center text-xs font-medium text-white transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_0_25px_-5px_rgba(192,38,255,0.6)]  active:scale-95"
                 >
                   View Designs →
                 </NavLink>
