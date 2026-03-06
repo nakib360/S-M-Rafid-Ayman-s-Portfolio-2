@@ -136,7 +136,10 @@ const Testimonials = () => {
     if (reviewCount <= 1) return undefined;
 
     const intervalId = window.setInterval(() => {
-      setCurrentSlide((prev) => prev + 1);
+      setCurrentSlide((prev) => {
+        if (prev >= reviewCount) return prev;
+        return prev + 1;
+      });
     }, 3500);
 
     return () => window.clearInterval(intervalId);
@@ -155,7 +158,7 @@ const Testimonials = () => {
   }, [isAnimating]);
 
   const handleTrackTransitionEnd = () => {
-    if (!reviewCount || currentSlide !== reviewCount) return;
+    if (!reviewCount || currentSlide < reviewCount) return;
     setIsAnimating(false);
     setCurrentSlide(0);
   };
@@ -168,6 +171,7 @@ const Testimonials = () => {
       ? normalizedSlide
       : (normalizedSlide + 1) % reviewCount
     : 0;
+  const trackSlide = reviewCount ? Math.min(currentSlide, reviewCount) : 0;
 
   return (
     <motion.section
@@ -218,7 +222,7 @@ const Testimonials = () => {
           <motion.div
             onTransitionEnd={handleTrackTransitionEnd}
             className={`flex ${isAnimating ? "transition-transform duration-700 ease-in-out" : ""}`}
-            style={{ transform: `translateX(-${currentSlide * (100 / visibleCards)}%)` }}
+            style={{ transform: `translateX(-${trackSlide * (100 / visibleCards)}%)` }}
           >
             {carouselItems.map((review, idx) => {
               const logicalIndex = idx % reviewCount;
