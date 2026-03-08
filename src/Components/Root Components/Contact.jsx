@@ -9,6 +9,7 @@ const Contact = () => {
     email: "",
     facebook: "",
     whatsapp: "",
+    form: "",
   });
 
   useEffect(() => {
@@ -26,6 +27,7 @@ const Contact = () => {
           email: data?.email || "",
           facebook: data?.facebook || "",
           whatsapp: data?.whatsapp || "",
+          form: data?.form || "",
         });
       })
       .catch(() => {
@@ -33,6 +35,7 @@ const Contact = () => {
           email: "",
           facebook: "",
           whatsapp: "",
+          form: "",
         });
       });
   }, [apiBase]);
@@ -61,7 +64,9 @@ const Contact = () => {
           whileHover={cardPop.whileHover}
           whileTap={cardPop.whileTap}
           transition={cardPop.transition}
-          href={`mailto:${links.email}`}
+          href={links.form || `mailto:${links.email}`}
+          target="_blank"
+          rel="noreferrer"
           className="inline-flex items-center justify-center h-14 px-8 rounded-full bg-white text-black text-base font-bold transition-all hover:scale-[1.02] active:scale-95 glow-shadow relative z-10"
         >
           Start Your Project

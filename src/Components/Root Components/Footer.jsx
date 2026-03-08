@@ -10,6 +10,7 @@ const Footer = () => {
     email: "",
     facebook: "",
     whatsapp: "",
+    form: "",
   });
 
   useEffect(() => {
@@ -27,6 +28,7 @@ const Footer = () => {
           email: data?.email || "",
           facebook: data?.facebook || "",
           whatsapp: data?.whatsapp || "",
+          form: data?.form || "",
         });
       })
       .catch(() => {
@@ -34,6 +36,7 @@ const Footer = () => {
           email: "",
           facebook: "",
           whatsapp: "",
+          form: "",
         });
       });
   }, [apiBase]);

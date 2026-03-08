@@ -44,11 +44,13 @@ const INITIAL_FOOTER_LINKS = {
   email: "",
   whatsapp: "",
   facebook: "",
+  form: "",
 };
 const FOOTER_LINK_ITEMS = [
-  { key: "email", title: "Email", placeholder: "mailto:hello@example.com" },
+  { key: "email", title: "Email", placeholder: "hello@example.com" },
   { key: "whatsapp", title: "WhatsApp", placeholder: "https://wa.me/8801XXXXXXXXX" },
   { key: "facebook", title: "Facebook", placeholder: "https://facebook.com/your-page" },
+  { key: "form", title: "Google form", placeholder: "https://forms.gle/example" },
 ];
 
 const AdminPanel = () => {
@@ -226,6 +228,7 @@ const AdminPanel = () => {
         email: data?.email || "",
         facebook: data?.facebook || "",
         whatsapp: data?.whatsapp || "",
+        form: data?.form || "",
       });
       setLinksEntryId(getItemId(data));
     } catch (loadError) {
@@ -558,7 +561,7 @@ const AdminPanel = () => {
 
     const hasAtLeastOneLink = Object.values(payload).some(Boolean);
     if (!hasAtLeastOneLink) {
-      setError("At least one link (email/facebook/whatsapp) is required");
+      setError("At least one link (email/facebook/whatsapp/form) is required");
       return;
     }
 
@@ -731,7 +734,7 @@ const AdminPanel = () => {
 
             <section className="mb-6 overflow-hidden rounded-xl border border-white/10 bg-white/2 shadow-[0_10px_35px_rgba(2,6,23,0.35)] backdrop-blur-md">
               <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 bg-white/1 px-4 py-3 sm:px-5">
-                <h2 className="text-base font-semibold text-white">Footer Social Links</h2>
+                <h2 className="text-base font-semibold text-white">Social Links</h2>
                 <span className="rounded-full border border-white/10 bg-black/20 px-2.5 py-1 text-[11px] text-slate-400">
                   {linksEntryId ? `Entry: ${linksEntryId.slice(-6)}` : "No entry yet"}
                 </span>
