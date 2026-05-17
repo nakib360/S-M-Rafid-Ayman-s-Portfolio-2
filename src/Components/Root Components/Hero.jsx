@@ -5,7 +5,7 @@ import smPhoto from "../../assets/rafid-ayman.png"
 
 const Hero = () => {
   return (
-    <section id="home" className="pb-10 lg:pb-0  relative overflow-hidden pt-24 sm:pt-28 md:pt-44 lg:pt-52">
+    <section id="home" className="pb-10 lg:pb-0  relative overflow-hidden pt-24 sm:pt-28 md:pt-20 lg:pt-25">
       <div
         className="absolute inset-0 z-0 pointer-events-none"
         style={{

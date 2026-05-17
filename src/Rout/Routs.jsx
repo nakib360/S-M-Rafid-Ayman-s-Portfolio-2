@@ -8,11 +8,13 @@ import PrintDesign from "../Components/Design Components/PrintDesign";
 import HomePage from "../Components/Pages/HomePage";
 import CoverDesign from "../Components/Design Components/CoverDesign";
 import AdminPanel from "../Components/Pages/AdminPanel";
+import ErrorPage from "../Components/Pages/ErrorPage";
 
 const rout = createBrowserRouter([
   {
     path: "/",
     Component: Main,
+    errorElement: <ErrorPage/>,
     children: [
       {
         index: true,
