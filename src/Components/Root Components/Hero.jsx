@@ -40,6 +40,7 @@ const Hero = () => {
             I am S M Rafid Ayman
           </motion.h1>
 
+
           <motion.p
             variants={fadeInUp}
             className="mb-8 max-w-2xl text-sm leading-relaxed text-[#9CA3AF] sm:mb-10 sm:text-lg"
