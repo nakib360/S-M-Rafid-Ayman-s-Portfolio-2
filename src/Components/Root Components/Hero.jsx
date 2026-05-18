@@ -48,7 +48,7 @@ const Hero = () => {
             From <span className="font-extrabold">Chittagong, Bangladesh</span>
           </motion.p>
 
-          <motion.div
+          {/* <motion.div
             variants={fadeInUp}
             className="mb-10 flex flex-col items-start gap-3 text-sm font-medium text-[#9CA3AF] sm:mb-12 sm:flex-row sm:flex-wrap sm:justify-start sm:gap-6"
           >
@@ -60,7 +60,7 @@ const Hero = () => {
               <LuCircleCheck className="text-[#C026FF]" size={20} strokeWidth={1.5} />
               Unlimited revisions
             </div>
-          </motion.div>
+          </motion.div> */}
 
           <div className="hidden sm:flex items-center gap-3 sm:gap-5 text-xs text-nowrap">
             <motion.a
